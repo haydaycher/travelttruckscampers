@@ -1,0 +1,12 @@
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.colorRingWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

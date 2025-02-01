@@ -1,0 +1,23 @@
+.errorPage {
+  font-size: 30px;
+  color: #f00048;
+}
+
+.errorText {
+  font-size: 22px;
+  color: rgb(203, 0, 54);
+}
+
+.errorWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+}
+
+.homeLink {
+  text-decoration: none;
+  font-size: 28px;
+}

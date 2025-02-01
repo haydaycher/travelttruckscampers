@@ -1,0 +1,21 @@
+.header_menu {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--badges);
+  background-color: var(--inputs);
+  justify-content: space-between;
+  position: relative;
+}
+
+.logo {
+  position: absolute;
+  left: 0;
+  padding-left: 64px;
+}
+
+.nav_container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}

@@ -23,7 +23,6 @@
     "react-router-dom": "^6.29.0",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
-    "styled-components": "^6.1.14",
     "yup": "^1.6.1"
   },
   "devDependencies": {
@@ -38,6 +37,7 @@
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
     "prettier": "^3.4.2",
-    "vite": "^6.0.11"
+    "vite": "^6.0.11",
+    "vite-plugin-svg-sprite": "^0.6.2"
   }
 }
