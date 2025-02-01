@@ -6,8 +6,8 @@ const NotFoundPage = () => {
     <div className={css.errorWrap}>
       <h1 className={css.errorPage}>Page Not Found</h1>
       <p className={css.errorText}>Ooops...error</p>
-      <Link to="/" className={css.homeLink}>
-        Back Home
+      <Link to="/">
+        <button className={css.homeLink}>Back Home</button>
       </Link>
     </div>
   );
