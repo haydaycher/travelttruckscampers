@@ -1,16 +1,13 @@
 // CampersList.js
 import React from 'react';
-import { useSelector } from 'react-redux';
 
-const CampersList = () => {
-  const campers = useSelector(state => state.campers.items);
-
+const CampersList = ({ campers }) => {
   return (
     <div>
       <h2>Campers List</h2>
       <ul>
         {Array.isArray(campers) && campers.length > 0 ? (
-          campers.map(camper => (
+          campers.map((camper) => (
             <li key={camper.id}>{camper.name}</li>
           ))
         ) : (
@@ -22,5 +19,3 @@ const CampersList = () => {
 };
 
 export default CampersList;
-
-

@@ -1,17 +1,14 @@
-// export const setFilter = (filters) => ({
-//   type: "SET_FILTER",
-//   payload: filters,
-// });
-// // actions.js
-// export const fetchData = () => {
-//   return async (dispatch) => {
-//     dispatch({ type: 'FETCH_DATA_REQUEST' });
-//     try {
-//       const response = await fetch('https://api.example.com/data');
-//       const data = await response.json();
-//       dispatch({ type: 'FETCH_DATA_SUCCESS', payload: data });
-//     } catch (error) {
-//       dispatch({ type: 'FETCH_DATA_FAILURE', error });
-//     }
-//   };
-// };
+// actions.js
+export const fetchCampersRequest = () => ({
+  type: 'FETCH_CAMPERS_REQUEST',
+});
+
+export const fetchCampersSuccess = (campers) => ({
+  type: 'FETCH_CAMPERS_SUCCESS',
+  payload: campers,
+});
+
+export const fetchCampersFailure = (error) => ({
+  type: 'FETCH_CAMPERS_FAILURE',
+  payload: error,
+});
