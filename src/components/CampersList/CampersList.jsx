@@ -1,9 +1,9 @@
-// CampersList.js
-import React from 'react';
+
+import css from './CampersList.module.css';
 
 const CampersList = ({ campers }) => {
   return (
-    <div>
+    <div className={css.campers_list}>
       <h2>Campers List</h2>
       <ul>
         {Array.isArray(campers) && campers.length > 0 ? (

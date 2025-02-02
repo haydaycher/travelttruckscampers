@@ -1,10 +1,8 @@
 .button {
   display: flex;
-  /* background-color: blue; */
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  /* gap: 10px; */
   border: 1px solid var(--gray-light);
   border-radius: 200px;
   padding: 16px 32px;

@@ -8,7 +8,7 @@ import NotFoundPage from "../NotFoundPage/NotFoundPage";
 const CamperDetailsPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { selectedCamper, status, error } = useSelector(
+  const { selectedCamper, status} = useSelector(
     (state) => state.campers
   );
 
@@ -26,7 +26,7 @@ const CamperDetailsPage = () => {
       <p>Price: ${selectedCamper.price}.00</p>
       <p>Location: {selectedCamper.location}</p>
       <p>Transmission: {selectedCamper.transmission}</p>
-      {/* Додай інші характеристики */}
+      
     </div>
   );
 };

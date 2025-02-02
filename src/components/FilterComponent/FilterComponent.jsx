@@ -24,48 +24,7 @@ const FilterComponent = ({ onFilterChange }) => {
 
   return (
     <div className={css.filterContainer}>
-      {/* <label>
-        Тип кузова:
-        <select value={type} onChange={handleTypeChange}>
-          <option value="">Всі</option>
-          <option value="van">Фургон</option>
-          <option value="motorhome">Будинок на колесах</option>
-          <option value="trailer">Причіп</option>
-        </select>
-      </label>
-
-      <fieldset>
-        <legend>Зручності:</legend>
-        <label>
-          <input
-            type="checkbox"
-            value="airConditioning"
-            checked={amenities.includes("airConditioning")}
-            onChange={handleAmenityChange}
-          />
-          Кондиціонер
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="kitchen"
-            checked={amenities.includes("kitchen")}
-            onChange={handleAmenityChange}
-          />
-          Кухня
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            value="bathroom"
-            checked={amenities.includes("bathroom")}
-            onChange={handleAmenityChange}
-          />
-          Ванна кімната
-        </label>
-      </fieldset> */}
+      
     </div>
   );
 };

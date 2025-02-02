@@ -87,12 +87,12 @@ npm run dev
 yarn dev
 ```
 
-<!--
+
 ### View the App
 Open [http://localhost:5173](http://localhost:5173) in your browser to see the app in action.
 
 ## Deployed Project
-The project is deployed on Vercel. You can view the live app here: [TravelTrucks - Vercel](https://your-vercel-link) -->
+The project is deployed on Vercel. You can view the live app here: [TravelTrucks - Vercel](travel-truck-five.vercel.app)
 
 ## Design
 

@@ -17,11 +17,11 @@
   box-sizing: border-box;
   position: relative;
 
-  /* Зображення фону 1x для стандартних екранів */
+  
   background-image: url("../../assets/images/homepage-1x-desk.jpg");
 }
 
-/* Медіа-запит для 2x екрану (Retina дисплеї) */
+
 @media (min-width: 1024px) and (min-resolution: 2dppx) {
   .home_container {
     background-image: url("../../assets/images/homepage-2x-desk.jpg");

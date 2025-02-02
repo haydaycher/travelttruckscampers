@@ -11,7 +11,7 @@ import Pagination from '../../components/Pagination/Pagination';
 
 const CatalogPage = () => {
   const dispatch = useDispatch();
-  const { status, error, items, totalPages } = useSelector((state) => state.campers);
+  const { status, items, totalPages } = useSelector((state) => state.campers);
 
   const [filters, setFilters] = useState({
     location: '',

@@ -1,18 +1,24 @@
-import axios from 'axios';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import express from 'express';
+import cors from 'cors';
+import camperRoutes from './routes/camperRoutes.js';
 
-axios.defaults.baseURL = 'https://66b1f8e71ca8ad33d4f5f63e.mockapi.io';
+const app = express();
 
-export const fetchCampers = createAsyncThunk('fetchCampers', async (_, thunkAPI) => {
-    try {
-        const response = await axios.get('/campers');
-        return response.data.items;
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error.message);
-    }
-});
-
-export const getCamperById = async (id) => {
-    const response = await axios.get(`/campers/${id}`);
-    return response.data;
+// Налаштування CORS
+const corsOptions = {
+  origin: 'https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers', 
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
 };
+
+// Використання CORS
+app.use(cors(corsOptions));
+
+// Інші налаштування сервера
+app.use(express.json());
+app.use('/campers', camperRoutes);
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

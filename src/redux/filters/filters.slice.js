@@ -14,19 +14,15 @@ const filtersSlice = createSlice({
       state.location = action.payload.location || state.location;
       state.features = action.payload.features || state.features;
       state.form = action.payload.form || state.form;
-      // Persist the updated filters to localStorage
       localStorage.setItem("filters", JSON.stringify(state));
     },
-    resetFilters: (state) => {
-      // Clear filters from localStorage
+    resetFilters: () => {
       localStorage.removeItem("filters");
       return filtersInitialState;
     },
     loadFilters: (state) => {
       const savedFilters = localStorage.getItem("filters");
-      if (savedFilters) {
-        return JSON.parse(savedFilters);
-      }
+      if (savedFilters) return JSON.parse(savedFilters);
       return state;
     },
   },

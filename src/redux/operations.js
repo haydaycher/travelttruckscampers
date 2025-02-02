@@ -1,4 +1,3 @@
-// operations.js
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -18,18 +17,16 @@ export const fetchCampers = createAsyncThunk(
       return response.data;
     } catch (error) {
       if (error.response) {
-        return rejectWithValue(`Server responded with status ${error.response.status}`);
+        return rejectWithValue(`Сервер відповів з помилкою: ${error.response.status}`);
       } else if (error.request) {
-        return rejectWithValue('No response received from server');
+        return rejectWithValue('Запит надіслано, але відповідь не отримано');
       } else {
-        return rejectWithValue(`Error: ${error.message}`);
+        return rejectWithValue(`Помилка: ${error.message}`);
       }
     }
   }
 );
 
-
-// Отримати деталі кемпера
 export const fetchCamperById = createAsyncThunk(
   'campers/fetchById',
   async (id, { rejectWithValue }) => {
@@ -38,15 +35,13 @@ export const fetchCamperById = createAsyncThunk(
       return data;
     } catch (error) {
       if (error.response) {
-        // Сервер відповів з помилкою
-        return rejectWithValue(`Server responded with status ${error.response.status}`);
+        return rejectWithValue(`Сервер відповів з помилкою: ${error.response.status}`);
       } else if (error.request) {
-        // Запит був надісланий, але відповідь не отримана
-        return rejectWithValue('No response received from server');
+        return rejectWithValue('Запит надіслано, але відповідь не отримано');
       } else {
-        // Інші помилки
-        return rejectWithValue(`Error: ${error.message}`);
+        return rejectWithValue(`Помилка: ${error.message}`);
       }
     }
   }
 );
+

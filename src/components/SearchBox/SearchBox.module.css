@@ -30,8 +30,8 @@
   width: 100%;
   height: 56px;
   font-size: 16px;
-  padding-left: 48px; /* Робить місце для іконки */
-  /* text-indent: 0px;  */
+  padding-left: 48px; 
+  
   border-radius: 12px;
   background: var(--inputs);
   font-family: var(--font-family);
@@ -51,28 +51,28 @@
 }
 .icon {
   position: absolute;
-  left: 20px; /* Відстань від лівого краю контейнера */
-  top: 50%; /* Відстань від верхнього краю контейнера */
-  transform: translateY(-50%); /* Вирівнюємо іконку по вертикалі */
-  width: 20px; /* Розмір іконки */
+  left: 20px; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  width: 20px; 
   height: 20px;
-  /* pointer-events: none; */
+ 
 }
 .icon {
   position: absolute;
-  left: 20px; /* Відстань від лівого краю контейнера */
-  top: 50%; /* Відстань від верхнього краю контейнера */
-  transform: translateY(-50%); /* Вирівнюємо іконку по вертикалі */
-  width: 20px; /* Розмір іконки */
+  left: 20px; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  width: 20px; 
   height: 20px;
-  /* pointer-events: none; */
+  
 }
 input[type="checkbox"] {
-  opacity: 0; /* Робимо чекбокс невидимим */
-  position: absolute; /* Щоб він не займав місце */
-  left: 0; /* Розміщуємо його поверх іконки */
+  opacity: 0; 
+  position: absolute; 
+  left: 0; 
   top: 0;
-  z-index: 1; /* Додаємо чекбокс на передній план */
+  z-index: 1; 
 }
 
 
@@ -103,8 +103,8 @@ input[type="checkbox"] {
   width: 360px;
 
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Три елементи в рядку */
-  gap: 10px; /* Відстань між елементами */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 10px; 
   margin-top: 48px;
 }
 
@@ -115,11 +115,11 @@ input[type="checkbox"] {
 
 .iconWrapper {
   display: flex;
-  /* width: 32px; */
+  
   height: 64px;
-  flex-direction: column-reverse; /* Розташовуємо іконку зверху, текст знизу */
-  align-items: center; /* Центруємо контент по горизонталі */
-  justify-content: flex-start; /* Вирівнюємо контент по вертикалі */
+  flex-direction: column-reverse; 
+  align-items: center; 
+  justify-content: flex-start; 
 }
 .iconWrapper svg {
   width: 32px;
@@ -137,18 +137,14 @@ input[type="checkbox"] {
   flex-direction: column-reverse;
 }
 
-/* .checkboxWrapper svg {
-  width: 32px;
-  height: 32px;
-  margin-bottom: 8px; /* Відстань між іконкою та текстом */
 
 .checkboxWrapper input[type="checkbox"],
 .checkboxWrapper input[type="radio"] {
-  opacity: 0; /* Ховає чекбокс */
-  position: absolute; /* Розміщує чекбокс поверх інших елементів */
+  opacity: 0; 
+  position: absolute; 
   top: 0;
   left: 0;
-  z-index: 1; /* Поміщає чекбокс на передній план */
+  z-index: 1; 
 }
 
 .checkboxWrapper:hover,
@@ -172,8 +168,8 @@ input[type="checkbox"] {
   font-size: 20px;
   line-height: 120%;
   color: var(--main);
-  position: relative; /* Додаємо позиціонування */
-  display: inline-block; /* Щоб рисочка не була занадто широкою */
+  position: relative; 
+  display: inline-block; 
   z-index: 1;
 }
 
@@ -181,7 +177,7 @@ input[type="checkbox"] {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -24px; /* Відступ вниз */
+  bottom: -24px; 
   width: 360px;
   height: 1px;
 

@@ -6,14 +6,12 @@ import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { fetchCampers } from "../../redux/operations";
 
-// Схема валідації за допомогою Yup
 const validationSchema = Yup.object({
   location: Yup.string().required("Location is required"),
   features: Yup.array().of(Yup.string()),
   form: Yup.string(),
 });
 
-// Об'єкт для категорій та відповідних іконок
 const featureIcons = {
   AC: "#icon-wind-blow",
   Automatic: "#icon-scheme",
@@ -23,18 +21,16 @@ const featureIcons = {
 };
 
 const vehicleTypeIcons = {
-  Van: "#icon-three-squares", // Replace with actual icon ID
-  "Fully Integrated": "#icon-four-squares", // Replace with actual icon ID
-  Alcove: "#icon-nine-squares", // Replace with actual icon ID
+  Van: "#icon-three-squares", 
+  "Fully Integrated": "#icon-four-squares", 
+  Alcove: "#icon-nine-squares", 
 };
 
 const SearchBox = ({ onSearch, onCategoryChange, selectedCategories = [] }) => {
   const dispatch = useDispatch();
 
-// SearchBox.js (частина handleSubmit)
 const handleSubmit = (values) => {
   if (!values.location.trim()) {
-    // Можна показати повідомлення користувачу або просто не робити запит
     return;
   }
   dispatch(changeFilter(values));
@@ -43,9 +39,9 @@ const handleSubmit = (values) => {
 
   const handleSearchChange = (event) => {
     const { value } = event.target;
-    onSearch(value); // Pass the search term to the parent component
+    onSearch(value); 
   };
-  // Початкові значення фільтрів
+  
   const initialValues = {
     location: "",
     features: selectedCategories,
@@ -61,7 +57,7 @@ const handleSubmit = (values) => {
       >
         {({ setFieldValue, values }) => (
           <Form>
-            {/* Поле для введення локації */}
+            
             <label className={css.labelSearch} htmlFor="location">
               Location:
             </label>
@@ -80,11 +76,11 @@ const handleSubmit = (values) => {
                 className={css.inputSearch}
                 type="text"
                 name="location"
-                placeholder="Kyiv, Ukraine"
+                placeholder="Search location"
               />
             </div>
 
-            {/* Секція фільтрів для обладнання транспортного засобу */}
+            
             <div className={css.filters}>
               <h3 className={css.filtersTitle}>Filters</h3>
               <h4 className={css.filtersCategory}>Vehicle equipment</h4>
@@ -128,7 +124,7 @@ const handleSubmit = (values) => {
               </div>
             </div>
 
-            {/* Секція фільтрів для типу транспортного засобу */}
+            
             <div className={css.filters}>
               <h4 className={css.filtersCategory}>Vehicle type</h4>
               <div className={css.filterOptions}>
@@ -161,7 +157,7 @@ const handleSubmit = (values) => {
               </div>
             </div>
 
-            {/* Кнопка застосування фільтрів */}
+            
             <button className={css.submitButton} type="submit">
               Search
             </button>
