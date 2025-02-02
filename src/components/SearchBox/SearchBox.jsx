@@ -31,10 +31,16 @@ const vehicleTypeIcons = {
 const SearchBox = ({ onSearch, onCategoryChange, selectedCategories = [] }) => {
   const dispatch = useDispatch();
 
-  const handleSubmit = (values) => {
-    dispatch(changeFilter(values)); // Оновлюємо фільтри в Redux
-    dispatch(fetchCampers(values));
-  };
+// SearchBox.js (частина handleSubmit)
+const handleSubmit = (values) => {
+  if (!values.location.trim()) {
+    // Можна показати повідомлення користувачу або просто не робити запит
+    return;
+  }
+  dispatch(changeFilter(values));
+  dispatch(fetchCampers(values));
+};
+
   const handleSearchChange = (event) => {
     const { value } = event.target;
     onSearch(value); // Pass the search term to the parent component

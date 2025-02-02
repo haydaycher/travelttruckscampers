@@ -1,13 +1,12 @@
-// import express from "express";
-// import { Router } from "express";
+import express from 'express';
+import { getCampers, getCamperById } from '../controllers/camperController.js';
 
-// const router = express.Router();
+const router = express.Router();
 
-// // Ваші маршрути тут
-// // Наприклад:
-// router.get("/", (req, res) => {
-//   res.send("List of campers");
-// });
-// router.get("/campers");
+// Отримання списку кемперів
+router.get('/', getCampers);
 
-// export default router;
+// Отримання одного кемпера за ID
+router.get('/:id', getCamperById);
+
+export default router;

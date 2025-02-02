@@ -13,30 +13,25 @@ const CatalogPage = () => {
   const dispatch = useDispatch();
   const { status, error } = useSelector((state) => state.campers);
 
-  // Ініціалізація фільтрів (location, type, amenities)
+  // Ініціалізація фільтрів
   const [filters, setFilters] = useState({
-    location: "", // локація
-    form: "", // тип кузова (alcove, semi-integrated, etc.)
-    amenities: [], // масив ознак (наприклад, кондиціонер, кухня, і т.д.)
+    location: "",
+    form: "",
+    features: [],
   });
 
-  // Викликаємо fetchCampers з затримкою
   useEffect(() => {
     const delayedFetch = debounce(() => {
       dispatch(fetchCampers(filters));
     }, 500);
-
     delayedFetch();
-
     return () => delayedFetch.cancel();
   }, [dispatch, filters]);
 
-  // Обробник зміни пошукового запиту (локація)
   const handleSearch = (location) => {
     setFilters((prev) => ({ ...prev, location }));
   };
 
-  // Обробник зміни фільтрів (наприклад, тип кузова, ознаки)
   const handleFilterChange = (newFilters) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
   };
@@ -46,16 +41,12 @@ const CatalogPage = () => {
 
   return (
     <div className={css.catalogPage}>
-      {/* Пошуковий інпут для локації */}
       <SearchBox onSearch={handleSearch} />
-
-      {/* Фільтри для типу кузова та ознак */}
       <FilterComponent onFilterChange={handleFilterChange} />
-
-      {/* Відображення списку кемперів */}
       <CampersList />
     </div>
   );
 };
 
 export default CatalogPage;
+

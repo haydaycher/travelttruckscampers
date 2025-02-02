@@ -3,7 +3,7 @@ import css from "./FilterComponent.module.css";
 
 const FilterComponent = ({ onFilterChange }) => {
   const [type, setType] = useState("");
-  const [amenities, setAmenities] = useState([]);
+  const [features, setAmenities] = useState([]);
 
   const handleTypeChange = (event) => {
     setType(event.target.value);
@@ -17,7 +17,7 @@ const FilterComponent = ({ onFilterChange }) => {
         ? [...prev, value]
         : prev.filter((item) => item !== value);
 
-      onFilterChange({ amenities: updatedAmenities });
+      onFilterChange({ features: updatedAmenities });
       return updatedAmenities;
     });
   };

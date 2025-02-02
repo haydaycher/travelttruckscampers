@@ -26,4 +26,4 @@ const filterCampers = (campers, { location, type, features }) => {
   return filteredCampers;
 };
 
-module.exports = filterCampers;
+export default filterCampers;
