@@ -4,17 +4,22 @@ const filtersSlice = createSlice({
   name: "filters",
   initialState: {
     location: "",
-    features: [],
     form: "",
+    features: [],
   },
   reducers: {
-    changeFilter: (state, action) => {
-      state.location = action.payload.location || state.location;
-      state.features = action.payload.features || state.features;
-      state.form = action.payload.form || state.form;
+    setLocation: (state, action) => {
+      state.location = action.payload;
+    },
+    setForm: (state, action) => {
+      state.form = action.payload;
+    },
+    setFeatures: (state, action) => {
+      state.features = action.payload;
     },
   },
 });
 
-export const { changeFilter } = filtersSlice.actions;
+export const { setLocation, setForm, setFeatures } = filtersSlice.actions;
+
 export default filtersSlice.reducer;

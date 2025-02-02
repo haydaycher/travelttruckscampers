@@ -3,13 +3,28 @@ import axios from "axios";
 
 const BASE_URL = "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers";
 
-// Отримати всі кемпери (з урахуванням фільтрів)
+// Функція для формування параметрів запиту
+const createQueryParams = (filters) => {
+  const params = new URLSearchParams();
+
+  if (filters.location) params.append("location", filters.location);
+  if (filters.form) params.append("form", filters.form);
+  if (filters.features && filters.features.length > 0) {
+    filters.features.forEach((feature) => params.append(feature, true));
+  }
+
+  return params.toString();
+};
+
+// Оновлена функція для отримання оголошень
 export const fetchCampers = createAsyncThunk(
-  "campers/fetchAll",
-  async (params = "", { rejectWithValue }) => {
+  "campers/fetchCampers",
+  async (filters, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${BASE_URL}${params}`);
-      return data;
+      const query = createQueryParams(filters); // формуємо параметри запиту
+      const response = await axios.get(`${BASE_URL}?${query}`);
+
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }

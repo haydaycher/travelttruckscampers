@@ -11,10 +11,6 @@ export const initialState = {
   },
   isLoading: false,
   error: null,
-  filters: {
-    features: [],
-    form: "",
-    location: "",
-  },
+
   favourites: [],
 };

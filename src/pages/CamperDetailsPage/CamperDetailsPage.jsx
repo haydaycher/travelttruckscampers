@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCamperById } from "../../redux/operations";
+import Loader from "../../components/Loader/Loader";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 const CamperDetailsPage = () => {
   const { id } = useParams();
@@ -14,8 +16,8 @@ const CamperDetailsPage = () => {
     dispatch(fetchCamperById(id));
   }, [dispatch, id]);
 
-  if (status === "loading") return <p>Loading...</p>;
-  if (status === "failed") return <p>Error: {error}</p>;
+  if (status === "loading") return <Loader />;
+  if (status === "failed") return <NotFoundPage />;
   if (!selectedCamper) return <p>No data available</p>;
 
   return (

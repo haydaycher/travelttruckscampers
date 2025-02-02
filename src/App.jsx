@@ -23,7 +23,7 @@ import HeaderMenu from "./components/HeaderMenu/HeaderMenu";
 import Loader from "./components/Loader/Loader";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
-const CatalogPage = lazy(() => import("./pages/CatalogPage/CatalogPage"));
+const CatalogPage = lazy(() => import("./pages/CatalogPage/CatalogPage.jsx"));
 const CamperDetailsPage = lazy(
   () => import("./pages/CamperDetailsPage/CamperDetailsPage")
 );

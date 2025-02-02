@@ -1,33 +1,59 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCampers } from "../../redux/operations";
-import { Link } from "react-router-dom";
+import SearchBox from "../../components/SearchBox/SearchBox";
+import CampersList from "../../components/CampersList/CampersList";
+import Loader from "../../components/Loader/Loader";
+import NotFoundPage from "../../pages/NotFoundPage/NotFoundPage";
+import css from "./CatalogPage.module.css";
+import FilterComponent from "../../components/FilterComponent/FilterComponent";
+import { debounce } from "lodash";
 
 const CatalogPage = () => {
   const dispatch = useDispatch();
-  const { items, status, error } = useSelector((state) => state.campers);
+  const { status, error } = useSelector((state) => state.campers);
 
+  // Ініціалізація фільтрів (location, type, amenities)
+  const [filters, setFilters] = useState({
+    location: "", // локація
+    form: "", // тип кузова (alcove, semi-integrated, etc.)
+    amenities: [], // масив ознак (наприклад, кондиціонер, кухня, і т.д.)
+  });
+
+  // Викликаємо fetchCampers з затримкою
   useEffect(() => {
-    dispatch(fetchCampers());
-  }, [dispatch]);
+    const delayedFetch = debounce(() => {
+      dispatch(fetchCampers(filters));
+    }, 500);
 
-  if (status === "loading") return <p>Loading...</p>;
-  if (status === "failed") return <p>Error: {error}</p>;
+    delayedFetch();
+
+    return () => delayedFetch.cancel();
+  }, [dispatch, filters]);
+
+  // Обробник зміни пошукового запиту (локація)
+  const handleSearch = (location) => {
+    setFilters((prev) => ({ ...prev, location }));
+  };
+
+  // Обробник зміни фільтрів (наприклад, тип кузова, ознаки)
+  const handleFilterChange = (newFilters) => {
+    setFilters((prev) => ({ ...prev, ...newFilters }));
+  };
+
+  if (status === "loading") return <Loader />;
+  if (status === "failed") return <NotFoundPage />;
 
   return (
-    <div>
-      <h1>Catalog</h1>
-      <ul>
-        {items.map((camper) => (
-          <li key={camper.id}>
-            <h3>{camper.name}</h3>
-            <p>Price: ${camper.price}.00</p>
-            <Link to={`/catalog/${camper.id}`}>
-              <button>Show more</button>
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className={css.catalogPage}>
+      {/* Пошуковий інпут для локації */}
+      <SearchBox onSearch={handleSearch} />
+
+      {/* Фільтри для типу кузова та ознак */}
+      <FilterComponent onFilterChange={handleFilterChange} />
+
+      {/* Відображення списку кемперів */}
+      <CampersList />
     </div>
   );
 };

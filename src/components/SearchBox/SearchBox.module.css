@@ -1,0 +1,214 @@
+.wrapperSearch {
+  box-sizing: border-box;
+  display: flex;
+
+  flex-direction: column;
+  padding: 48px 64px;
+}
+.filterLabelWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.labelSearch {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--gray);
+  margin-bottom: 8px;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 360px;
+}
+
+.inputSearch {
+  border: none;
+  width: 100%;
+  height: 56px;
+  font-size: 16px;
+  padding-left: 48px; /* Робить місце для іконки */
+  /* text-indent: 0px;  */
+  border-radius: 12px;
+  background: var(--inputs);
+  font-family: var(--font-family);
+  font-weight: 400;
+  line-height: 150%;
+  color: var(--main);
+}
+
+.inputSearch::placeholder {
+  position: relative;
+  color: var(--gray-dark);
+}
+
+.inputSearch:focus {
+  outline: none;
+  border: 1px solid var(--gray-dark);
+}
+.icon {
+  position: absolute;
+  left: 20px; /* Відстань від лівого краю контейнера */
+  top: 50%; /* Відстань від верхнього краю контейнера */
+  transform: translateY(-50%); /* Вирівнюємо іконку по вертикалі */
+  width: 20px; /* Розмір іконки */
+  height: 20px;
+  /* pointer-events: none; */
+}
+.icon {
+  position: absolute;
+  left: 20px; /* Відстань від лівого краю контейнера */
+  top: 50%; /* Відстань від верхнього краю контейнера */
+  transform: translateY(-50%); /* Вирівнюємо іконку по вертикалі */
+  width: 20px; /* Розмір іконки */
+  height: 20px;
+  /* pointer-events: none; */
+}
+input[type="checkbox"] {
+  opacity: 0; /* Робимо чекбокс невидимим */
+  position: absolute; /* Щоб він не займав місце */
+  left: 0; /* Розміщуємо його поверх іконки */
+  top: 0;
+  z-index: 1; /* Додаємо чекбокс на передній план */
+}
+
+p {
+  margin: 0 auto;
+}
+.filters {
+  margin-top: 40px;
+}
+
+.filterButton {
+  padding: 10px 20px;
+  margin: 5px;
+  border: 2px solid #ccc;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.filterButton:hover {
+  background-color: #e0e0e0;
+}
+
+.selected {
+  background-color: #4caf50;
+  color: white;
+}
+
+.filterOptions {
+  width: 360px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Три елементи в рядку */
+  gap: 10px; /* Відстань між елементами */
+  margin-top: 48px;
+}
+
+.filterOptions > * {
+  float: 1 0 30%;
+  box-sizing: border-box;
+}
+
+.iconWrapper {
+  display: flex;
+  /* width: 32px; */
+  height: 64px;
+  flex-direction: column-reverse; /* Розташовуємо іконку зверху, текст знизу */
+  align-items: center; /* Центруємо контент по горизонталі */
+  justify-content: flex-start; /* Вирівнюємо контент по вертикалі */
+}
+.iconWrapper svg {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+}
+.checkboxWrapper {
+  position: relative;
+  border: 1px solid var(--gray-light);
+  border-radius: 12px;
+  padding: 16px 18px;
+  width: 112px;
+  height: 96px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+/* .checkboxWrapper svg {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px; /* Відстань між іконкою та текстом */
+
+.checkboxWrapper input[type="checkbox"],
+.checkboxWrapper input[type="radio"] {
+  opacity: 0; /* Ховає чекбокс */
+  position: absolute; /* Розміщує чекбокс поверх інших елементів */
+  top: 0;
+  left: 0;
+  z-index: 1; /* Поміщає чекбокс на передній план */
+}
+
+.checkboxWrapper:hover,
+.checkboxWrapper:focus {
+  border: 1px solid var(--button);
+  padding: 16px 40px;
+}
+
+.filtersTitle {
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--text);
+  margin-bottom: 32px;
+}
+
+.filtersCategory {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 120%;
+  color: var(--main);
+  position: relative; /* Додаємо позиціонування */
+  display: inline-block; /* Щоб рисочка не була занадто широкою */
+  z-index: 1;
+}
+
+.filtersCategory::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -24px; /* Відступ вниз */
+  width: 360px;
+  height: 1px;
+
+  background-color: var(--gray-light);
+}
+
+.submitButton {
+  border-radius: 200px;
+  padding: 16px 60px;
+  width: 166px;
+  height: 56px;
+  background: var(--button);
+  margin-top: 40px;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: -0.01em;
+  color: var(--white);
+}
+
+.submitButton:hover {
+  background-color: var(--button-hover);
+}
+.submitButton:disabled {
+  background-color: var(--gray-light);
+  cursor: not-allowed;
+}

@@ -9,6 +9,10 @@ import {
 export const selectFilteredCampers = createSelector(
   [selectCampers, selectLocationFilter, selectFormFilter, selectFeaturesFilter],
   (campers, locationFilter, formFilter, featuresFilter) => {
+    if (!Array.isArray(campers)) {
+      return []; // Повертаємо порожній масив, якщо campers не є масивом
+    }
+
     return campers.filter((camper) => {
       const matchesLocation = camper.location
         .toLowerCase()
