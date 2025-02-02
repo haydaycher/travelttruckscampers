@@ -1,54 +1,19 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-const BASE_URL = "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers";
-
-// Функція для формування параметрів запиту
-const createQueryParams = (filters) => {
-  const params = new URLSearchParams();
-
-  if (filters.location) params.append("location", filters.location);
-  if (filters.form) params.append("form", filters.form);
-  if (filters.features && filters.features.length > 0) {
-    filters.features.forEach((feature) => params.append(feature, true));
-  }
-
-  return params.toString();
-};
-
-export const fetchCampers = createAsyncThunk(
-  "campers/fetchCampers",
-  async (filters, { rejectWithValue }) => {
-    try {
-      const query = createQueryParams(filters);
-      const response = await axios.get(`${BASE_URL}?${query}`);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-
-export const fetchCamperById = createAsyncThunk(
-  "campers/fetchById",
-  async (id, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.get(`${BASE_URL}/${id}`);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchCampers, fetchCamperById } from "../operations"; // асинхронні операції
 
 const campersSlice = createSlice({
   name: "campers",
   initialState: {
     items: [],
-    status: "idle",
+    selectedCamper: null,
+    status: "idle", // "loading", "succeeded", "failed"
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setCampers(state, action) {
+      state.items = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCampers.pending, (state) => {
@@ -67,7 +32,7 @@ const campersSlice = createSlice({
       })
       .addCase(fetchCamperById.fulfilled, (state, action) => {
         state.status = "succeeded";
-        // Додайте логіку для обробки детальної інформації про кемпер
+        state.selectedCamper = action.payload;
       })
       .addCase(fetchCamperById.rejected, (state, action) => {
         state.status = "failed";
@@ -76,4 +41,5 @@ const campersSlice = createSlice({
   },
 });
 
+export const { setCampers } = campersSlice.actions;
 export default campersSlice.reducer;

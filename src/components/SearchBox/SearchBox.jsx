@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import css from "./SearchBox.module.css";
 import { useDispatch } from "react-redux";
 import { changeFilter } from "../../redux/filters/filters.slice";

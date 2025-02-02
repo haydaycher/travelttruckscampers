@@ -1,42 +1,47 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { selectFilteredCampers } from "../../redux/campers/campers.selectors";
-import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn";
-import css from "./CampersList.module.css";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCampers } from '../../redux/campers/campers.slice';
+import { fetchCampers } from '../../redux/operations'; // Імпортуємо fetchCampers
 
 const CampersList = () => {
-  const campers = useSelector(selectFilteredCampers);
-  const [visibleItems, setVisibleItems] = useState(5);
+  const dispatch = useDispatch();
+  const campers = useSelector(state => state.campers.items);
+  const [error, setError] = useState(null);
 
-  const loadMore = () => {
-    setVisibleItems((prev) => prev + 5);
-  };
+  useEffect(() => {
+    const fetchCampersData = async () => {
+      try {
+        // Використовуємо fetchCampers з operations.js
+        await dispatch(fetchCampers()); // викликаємо async-thunk
+      } catch (error) {
+        setError(error.message);
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchCampersData();
+  }, [dispatch]);
 
   return (
-    <div className={css.listContainer}>
-      {campers.length > 0 ? (
-        <>
-          <ul className={css.list}>
-            {campers.slice(0, visibleItems).map((camper) => (
-              <li key={camper.id} className={css.item}>
-                <h3>{camper.name}</h3>
-                <p>Price: {camper.price.toFixed(2)}</p>{" "}
-                {/* Форматування ціни */}
-                <Link to={`/catalog/${camper.id}`} className={css.detailsLink}>
-                  View Details
-                </Link>
-              </li>
-            ))}
-          </ul>
-          {campers.length > visibleItems && <LoadMoreBtn onClick={loadMore} />}
-        </>
+    <div>
+      <h2>Campers List</h2>
+      {error ? (
+        <p>Error: {error}</p>
       ) : (
-        <p>No campers match the selected filters.</p>
+        <ul>
+          {Array.isArray(campers) && campers.length > 0 ? (
+            campers.map(camper => (
+              <li key={camper.id}>{camper.name}</li>
+            ))
+          ) : (
+            <li>No available campers.</li>
+          )}
+        </ul>
       )}
-      {/* if (status === 'loading') return <Loader />; */}
     </div>
   );
 };
 
 export default CampersList;
+
+

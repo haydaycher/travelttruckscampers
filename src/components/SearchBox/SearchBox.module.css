@@ -75,9 +75,7 @@ input[type="checkbox"] {
   z-index: 1; /* Додаємо чекбокс на передній план */
 }
 
-p {
-  margin: 0 auto;
-}
+
 .filters {
   margin-top: 40px;
 }
