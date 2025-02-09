@@ -3,7 +3,7 @@ import css from './CampersList.module.css';
 const CampersList = ({ campers }) => {
   return (
     <div className={css.campers_list}>
-      <h2>Campers List</h2>
+      {/* <h2>Campers List</h2> */}
       <ul>
         {Array.isArray(campers) && campers.length > 0 ? (
           campers.map((camper) => {

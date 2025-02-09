@@ -1,12 +1,12 @@
 import express from 'express';
 import cors from 'cors';
-import camperRoutes from './routes/camperRoutes.js';
+import camperRoutes from './src/routes/camperRoutes.js';
 
 const app = express();
 
 // Налаштування CORS
 const corsOptions = {
-  origin: 'https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers', 
+  origin: 'https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 };
