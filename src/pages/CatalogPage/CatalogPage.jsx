@@ -4,7 +4,6 @@ import { fetchCampers } from '../../redux/operations';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import CampersList from '../../components/CampersList/CampersList';
 import Loader from '../../components/Loader/Loader';
-import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import css from './CatalogPage.module.css';
 import FilterComponent from '../../components/FilterComponent/FilterComponent';
 import Pagination from '../../components/Pagination/Pagination';
@@ -20,19 +19,22 @@ const CatalogPage = () => {
     limit: 10,
   });
 
+  // При кожній зміні фільтрів робимо запит
   useEffect(() => {
     dispatch(fetchCampers(filters));
   }, [dispatch, filters]);
 
   const handleSearch = (location) => {
-    setFilters((prev) => ({ ...prev, location }));
+    // При новому пошуку скидаємо сторінку на 1
+    setFilters((prev) => ({ ...prev, location, page: 1 }));
   };
 
   const handleFilterChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
+    setFilters((prev) => ({
+      ...prev,
       [name]: type === 'checkbox' ? checked : value,
+      page: 1, // скидання сторінки при зміні фільтра
     }));
   };
 
@@ -41,18 +43,24 @@ const CatalogPage = () => {
   };
 
   if (status === 'loading') return <Loader />;
-  if (status === 'failed') return <NotFoundPage />;
+  if (status === 'failed') return <div>Помилка завантаження даних</div>;
 
   return (
     <div className={css.catalogPage}>
       <SearchBox onSearch={handleSearch} />
       <FilterComponent onFilterChange={handleFilterChange} />
-      <CampersList campers={items} />
-      <Pagination
-        currentPage={filters.page}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {items && items.length > 0 ? (
+        <>
+          <CampersList campers={items} />
+          <Pagination
+            currentPage={filters.page}
+            totalPages={totalPages || 1}
+            onPageChange={handlePageChange}
+          />
+        </>
+      ) : (
+        <div>Немає результатів за заданими критеріями.</div>
+      )}
     </div>
   );
 };

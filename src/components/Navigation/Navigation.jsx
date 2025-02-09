@@ -1,7 +1,7 @@
-import { NavLink } from "react-router-dom";
-import css from "./Navigation.module.css";
-import clsx from "clsx";
-import Logo from "../Logo/Logo";
+import { NavLink } from 'react-router-dom';
+import css from './Navigation.module.css';
+import clsx from 'clsx';
+import Logo from '../Logo/Logo';
 
 const generateNavLinkClass = ({ isActive }) => {
   return clsx(css.nav_item, isActive && css.active_link);
@@ -10,9 +10,9 @@ const generateNavLinkClass = ({ isActive }) => {
 export default function Navigation() {
   return (
     <nav className={css.nav_container}>
-      <NavLink to="/" className={css.logo}>
+      {/* <NavLink to="/" className={css.logo}>
         <Logo />
-      </NavLink>
+      </NavLink> */}
       <ul className={css.nav_list}>
         <li>
           <NavLink to="/" className={generateNavLinkClass}>

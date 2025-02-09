@@ -1,4 +1,4 @@
-// reducer.js
+// File: src/redux/campers/reducer.js
 const initialState = {
   campers: [],
   loading: false,

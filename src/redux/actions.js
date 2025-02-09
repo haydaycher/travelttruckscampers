@@ -1,4 +1,4 @@
-// actions.js
+// File: src/redux/filters/actions.js
 export const fetchCampersRequest = () => ({
   type: 'FETCH_CAMPERS_REQUEST',
 });

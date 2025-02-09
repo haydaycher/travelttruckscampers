@@ -1,20 +1,21 @@
+// File: src/redux/initialState.js
 export const initialState = {
   trucks: [],
   truck: {
-    name: "",
+    name: '',
     rating: 0,
     reviews: [],
-    location: "",
+    location: '',
     price: 0,
     gallery: [],
-    description: "",
+    description: '',
   },
   isLoading: false,
   error: null,
   filters: {
     features: [],
-    form: "",
-    location: "",
+    form: '',
+    location: '',
   },
   favourites: [],
 };

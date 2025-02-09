@@ -1,10 +1,12 @@
-import { createSelector } from "@reduxjs/toolkit";
-import { selectCampers } from "../campers/campers.selectors"; // або коректний шлях до селектора кемперів
+// File: src/redux/campers/selectFilteredCampers.js
+import { createSelector } from '@reduxjs/toolkit';
+import { selectCampers } from './campers.selectors';
 import {
   selectLocationFilter,
   selectFormFilter,
   selectFeaturesFilter,
-} from "../filters/filters.selectors"; // селектори фільтрів
+} from '../filters/filters.selectors';
+
 export const selectFilteredCampers = createSelector(
   [selectCampers, selectLocationFilter, selectFormFilter, selectFeaturesFilter],
   (campers, locationFilter, formFilter, featuresFilter) => {
@@ -14,9 +16,9 @@ export const selectFilteredCampers = createSelector(
         .includes(locationFilter.toLowerCase());
       const matchesForm = formFilter ? camper.form === formFilter : true;
       const matchesFeatures = featuresFilter.every((feature) =>
-        camper.features.includes(feature)
+        camper.features.includes(feature),
       );
       return matchesLocation && matchesForm && matchesFeatures;
     });
-  }
+  },
 );
