@@ -1,12 +1,11 @@
-// File: src/redux/campers/campers.slice.js
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchCampers } from '../operations';
 
 const campersSlice = createSlice({
   name: 'campers',
   initialState: {
-    items: [],
-    totalPages: 1, // Додаємо totalPages до початкового стану
+    items: [], // Має бути масивом!
+    totalPages: 1,
     status: 'idle',
     error: null,
   },
@@ -17,8 +16,7 @@ const campersSlice = createSlice({
       })
       .addCase(fetchCampers.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        // Очікуємо, що thunk повертає { items, totalPages }
-        state.items = action.payload.items;
+        state.items = action.payload.items; // Тут було state.items = action.payload
         state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchCampers.rejected, (state, action) => {

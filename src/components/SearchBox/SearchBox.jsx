@@ -29,11 +29,10 @@ const SearchBox = ({ onSearch, onCategoryChange, selectedCategories = [] }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values) => {
-    if (!values.location.trim()) {
-      return;
-    }
+    if (!values.location.trim()) return;
+
     dispatch(changeFilter(values));
-    dispatch(fetchCampers(values));
+    dispatch(fetchCampers(values)); // Переконайтесь, що тут використовуються правильні параметри
   };
 
   const handleSearchChange = (event) => {

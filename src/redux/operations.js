@@ -8,14 +8,20 @@ export const fetchCampers = createAsyncThunk(
   'campers/fetchAll',
   async (params = {}, { rejectWithValue }) => {
     try {
-      const { location, form, page = 1, limit = 10 } = params;
+      const { location, type, page = 1, limit = 10 } = params;
       let url = `${BASE_URL}?page=${page}&limit=${limit}`;
+
       if (location) url += `&location=${encodeURIComponent(location)}`;
-      if (form) url += `&form=${encodeURIComponent(form)}`;
+      // Якщо API використовує поле "form" для типу, то:
+      if (type) {
+        console.log('Using type filter:', type);
+        url += `&form=${encodeURIComponent(type)}`;
+      }
 
       console.log('Fetching URL:', url);
 
       const response = await axios.get(url);
+      console.log('Full response:', response);
       console.log('Response data:', response.data);
 
       // Припускаємо, що API повертає дані у форматі:

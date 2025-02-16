@@ -1,5 +1,6 @@
 // File: src/redux/campers/campers.selectors.js
-export const selectCampers = (state) => state.campers.items;
+export const selectCampers = (state) => state.campers.items || [];
+
 export const selectStatus = (state) => state.campers.status;
 export const selectLoading = (state) => state.campers.loading; // Додаємо селектор loading
 export const selectError = (state) => state.campers.error;
