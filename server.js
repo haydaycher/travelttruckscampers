@@ -1,19 +1,21 @@
 import express from 'express';
-import cors from 'cors';
-import camperRoutes from './src/routes/camperRoutes.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 
-const corsOptions = {
-  origin: '*', // Дозволяє доступ з будь-якого домену
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type'],
-};
+// Визначаємо кореневу директорію (оскільки використовуємо ES-модулі)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use('/campers', camperRoutes);
+// Робимо dist статичною папкою
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Всі маршрути спрямовуємо на index.html (для React Router)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

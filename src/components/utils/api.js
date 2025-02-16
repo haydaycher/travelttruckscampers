@@ -1,24 +1,24 @@
-const filterCampers = (campers, { location, type, features }) => {
-  let filteredCampers = campers;
+// const filterCampers = (campers, { location, type, features }) => {
+//   let filteredCampers = campers;
 
-  if (location) {
-    filteredCampers = filteredCampers.filter((camper) =>
-      camper.location.toLowerCase().includes(location.toLowerCase()),
-    );
-  }
+//   if (location) {
+//     filteredCampers = filteredCampers.filter((camper) =>
+//       camper.location.toLowerCase().includes(location.toLowerCase()),
+//     );
+//   }
 
-  if (type) {
-    filteredCampers = filteredCampers.filter((camper) => camper.type === type);
-  }
+//   if (type) {
+//     filteredCampers = filteredCampers.filter((camper) => camper.type === type);
+//   }
 
-  if (features) {
-    const selectedFeatures = features.split(',');
-    filteredCampers = filteredCampers.filter((camper) =>
-      selectedFeatures.every((feature) => camper.features.includes(feature)),
-    );
-  }
+//   if (features) {
+//     const selectedFeatures = features.split(',');
+//     filteredCampers = filteredCampers.filter((camper) =>
+//       selectedFeatures.every((feature) => camper.features.includes(feature)),
+//     );
+//   }
 
-  return filteredCampers;
-};
+//   return filteredCampers;
+// };
 
-export default filterCampers;
+// export default filterCampers;

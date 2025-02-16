@@ -5,10 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "vite"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
