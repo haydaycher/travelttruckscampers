@@ -1,32 +1,17 @@
 import PropTypes from 'prop-types';
+import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import css from './Pagination.module.css';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      onPageChange(page);
+  const handleLoadMore = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
     }
   };
 
   return (
     <div className={css.pagination}>
-      <button
-        className={css.pageButton}
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        Previous
-      </button>
-      <span className={css.pageInfo}>
-        Page {currentPage} of {totalPages}
-      </span>
-      <button
-        className={css.pageButton}
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-      >
-        Next
-      </button>
+      {currentPage < totalPages && <LoadMoreBtn onClick={handleLoadMore} />}
     </div>
   );
 };

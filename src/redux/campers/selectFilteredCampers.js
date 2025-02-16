@@ -6,7 +6,6 @@ import {
   selectFormFilter,
   selectFeaturesFilter,
 } from '../filters/filters.selectors';
-
 export const selectFilteredCampers = createSelector(
   [selectCampers, selectLocationFilter, selectFormFilter, selectFeaturesFilter],
   (campers, locationFilter, formFilter, featuresFilter) => {
@@ -14,9 +13,12 @@ export const selectFilteredCampers = createSelector(
       const matchesLocation = camper.location
         .toLowerCase()
         .includes(locationFilter.toLowerCase());
-      const matchesForm = formFilter ? camper.form === formFilter : true;
+      // Якщо в даних може бути або поле form, або type – перевіряємо обидва
+      const matchesForm = formFilter
+        ? (camper.form || camper.type) === formFilter
+        : true;
       const matchesFeatures = featuresFilter.every((feature) =>
-        camper.features.includes(feature),
+        (camper.features || []).includes(feature),
       );
       return matchesLocation && matchesForm && matchesFeatures;
     });

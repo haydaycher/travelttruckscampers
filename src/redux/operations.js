@@ -8,12 +8,10 @@ export const fetchCampers = createAsyncThunk(
   'campers/fetchAll',
   async (params = {}, { rejectWithValue }) => {
     try {
-      const { location, type, page = 1, limit = 10 } = params;
+      const { location, form, page = 1, limit = 10 } = params;
       let url = `${BASE_URL}?page=${page}&limit=${limit}`;
-
       if (location) url += `&location=${encodeURIComponent(location)}`;
-      // Якщо API використовує поле "form" для типу, то:
-      if (type) url += `&form=${encodeURIComponent(type)}`;
+      if (form) url += `&form=${encodeURIComponent(form)}`;
 
       console.log('Fetching URL:', url);
 

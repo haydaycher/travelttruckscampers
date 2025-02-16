@@ -1,4 +1,4 @@
-// File: src/redux/initialState.js
+// src/redux/initialState.js
 export const initialState = {
   trucks: [],
   truck: {
@@ -17,5 +17,5 @@ export const initialState = {
     form: '',
     location: '',
   },
-  favourites: [],
+  favorites: [], // Містить список ID улюблених кемперів
 };

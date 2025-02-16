@@ -1,28 +1,66 @@
-import css from './CampersList.module.css';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from '../../redux/favs/actions.js';
+import Pagination from '../Pagination/Pagination';
+import {
+  selectLoading,
+  selectError,
+} from '../../redux/campers/campers.selectors';
+import { selectFilteredCampers } from '../../redux/campers/selectFilteredCampers';
 
-const CampersList = ({ campers }) => {
+const CampersList = ({ filters, onPageChange }) => {
+  const dispatch = useDispatch();
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+  const filteredCampers = useSelector((state) =>
+    selectFilteredCampers(state, filters),
+  );
+  const itemsPerPage = 4;
+
+  const handleAddFav = (id) => {
+    dispatch(addToFavorites(id));
+  };
+
+  const handleRemoveFav = (id) => {
+    dispatch(removeFromFavorites(id));
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
-    <div className={css.campers_list}>
-      {/* <h2>Campers List</h2> */}
+    <div>
+      {' '}
       <ul>
-        {Array.isArray(campers) && campers.length > 0 ? (
-          campers.map((camper) => {
-            console.log(camper); // Перевір у консолі структуру об'єкта
-
-            // Отримуємо перше зображення з галереї
-            const imageUrl = camper.gallery?.[0]?.thumb || '/default-image.jpg';
-
-            return (
-              <li key={camper.id}>
-                <p>{camper.name}</p>
-                <img src={imageUrl} alt={camper.name} width="150" />
-              </li>
-            );
-          })
-        ) : (
-          <li>No available campers.</li>
-        )}
-      </ul>
+        {' '}
+        {filteredCampers.slice(0, itemsPerPage).map((camper) => (
+          <li key={camper.id}>
+            {' '}
+            <h3>{camper.name}</h3> <p>{camper.location}</p>{' '}
+            <p>{camper.form || camper.type}</p>{' '}
+            <div>
+              {' '}
+              {(camper.features || []).map((feature, index) => (
+                <span key={index}>{feature} </span>
+              ))}{' '}
+            </div>{' '}
+            <button onClick={() => handleAddFav(camper.id)}>
+              Add to Favorites
+            </button>{' '}
+            <button onClick={() => handleRemoveFav(camper.id)}>
+              Remove from Favorites
+            </button>{' '}
+          </li>
+        ))}{' '}
+      </ul>{' '}
+      <Pagination
+        currentPage={filters.page}
+        totalPages={Math.ceil(filteredCampers.length / itemsPerPage)}
+        onPageChange={onPageChange}
+      />{' '}
     </div>
   );
 };
