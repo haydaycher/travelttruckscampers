@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import camperRoutes from './routes/camperRoutes.js';
+import camperRoutes from './src/routes/camperRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
