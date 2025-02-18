@@ -22,14 +22,14 @@ const CamperDetailsPage = () => {
   return (
     <>
       <Helmet>
-        <title>{selectedCamper.name} - Camper Details</title>{' '}
-        {/* Заголовок сторінки */}
+        <title>{selectedCamper.name} - Camper Details</title>
       </Helmet>
       <div>
         <h1>{selectedCamper.name}</h1>
         <p>Price: ${selectedCamper.price}.00</p>
         <p>Location: {selectedCamper.location}</p>
         <p>Transmission: {selectedCamper.transmission}</p>
+        {/* Додаткові характеристики, галерея, відгуки, бронювання можна додати за потреби */}
       </div>
     </>
   );

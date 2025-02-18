@@ -1,4 +1,7 @@
 export const initialState = {
+  locations: [],
+  forms: [],
+  availableFeatures: [],
   trucks: [],
   truck: {
     name: '',

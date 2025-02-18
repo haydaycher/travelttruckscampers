@@ -1,17 +1,17 @@
 import css from './SearchBox.module.css';
 import { useDispatch } from 'react-redux';
-import { changeFilter } from '../../redux/filters/filters.slice';
+import { fetchFiltersData } from '../../redux/filters/filters.slice';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { fetchCampers } from '../../redux/operations';
 
 const validationSchema = Yup.object({
   location: Yup.string().required('Location is required'),
-  features: Yup.array().of(Yup.string()),
+  amenities: Yup.array().of(Yup.string()),
   form: Yup.string(),
 });
 
-const featureIcons = {
+const amenityIcons = {
   AC: '#icon-wind-blow',
   Automatic: '#icon-scheme',
   Kitchen: '#icon-tea',
@@ -31,7 +31,7 @@ const SearchBox = ({ onSearch, onCategoryChange, selectedCategories = [] }) => {
   const handleSubmit = (values) => {
     if (!values.location.trim()) return;
 
-    dispatch(changeFilter(values));
+    dispatch(fetchFiltersData(values));
     dispatch(fetchCampers(values)); // Переконайтесь, що тут використовуються правильні параметри
   };
 
@@ -42,7 +42,7 @@ const SearchBox = ({ onSearch, onCategoryChange, selectedCategories = [] }) => {
 
   const initialValues = {
     location: '',
-    features: selectedCategories,
+    amenities: selectedCategories, // Використовуємо amenities
     form: '',
   };
 
@@ -86,16 +86,17 @@ const SearchBox = ({ onSearch, onCategoryChange, selectedCategories = [] }) => {
                     <label key={category} className={css.checkboxWrapper}>
                       <Field
                         type="checkbox"
-                        name="features"
+                        name="amenities" // Замінили на amenities
                         value={category}
-                        checked={values.features.includes(category)}
+                        checked={values.amenities.includes(category)}
                         onChange={() => {
-                          const nextValue = values.features.includes(category)
-                            ? values.features.filter(
+                          const nextValue = values.amenities.includes(category)
+                            ? values.amenities.filter(
                                 (item) => item !== category,
                               )
-                            : [...values.features, category];
-                          setFieldValue('features', nextValue);
+                            : [...values.amenities, category];
+                          setFieldValue('amenities', nextValue);
+                          onCategoryChange(nextValue); // Call this function
                         }}
                       />
                       <div className={css.iconWrapper}>
@@ -108,7 +109,7 @@ const SearchBox = ({ onSearch, onCategoryChange, selectedCategories = [] }) => {
                           viewBox="0 0 24 24"
                         >
                           <use
-                            href={`/icons-svg.svg${featureIcons[category] || ''}`}
+                            href={`/icons-svg.svg${amenityIcons[category] || ''}`}
                           />
                         </svg>
                         <p>{category}</p>

@@ -1,32 +1,37 @@
-import { createSlice } from "@reduxjs/toolkit";
+// filters.slice.js
 
-const filtersInitialState = {
-  location: "",
-  features: [],
-  form: "",
-};
+import { createSlice } from '@reduxjs/toolkit';
 
-const filtersSlice = createSlice({
-  name: "filters",
-  initialState: filtersInitialState,
+export const filtersSlice = createSlice({
+  name: 'filters',
+  initialState: {
+    locations: [],
+    forms: [],
+    availableFeatures: [],
+  },
   reducers: {
-    changeFilter: (state, action) => {
-      state.location = action.payload.location || state.location;
-      state.features = action.payload.features || state.features;
-      state.form = action.payload.form || state.form;
-      localStorage.setItem("filters", JSON.stringify(state));
-    },
-    resetFilters: () => {
-      localStorage.removeItem("filters");
-      return filtersInitialState;
-    },
-    loadFilters: (state) => {
-      const savedFilters = localStorage.getItem("filters");
-      if (savedFilters) return JSON.parse(savedFilters);
-      return state;
+    setFiltersData: (state, action) => {
+      // Update filters state
+      const { locations, forms, availableFeatures } = action.payload;
+      state.locations = locations;
+      state.forms = forms;
+      state.availableFeatures = availableFeatures;
     },
   },
 });
 
-export const { changeFilter, resetFilters, loadFilters } = filtersSlice.actions;
+// The action to fetch data
+export const fetchFiltersData = () => async (dispatch) => {
+  try {
+    const response = await fetch(
+      'https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers',
+    ); // Adjust API endpoint as needed
+    const data = await response.json();
+    dispatch(setFiltersData(data));
+  } catch (error) {
+    console.error('Error fetching filters:', error);
+  }
+};
+
+export const { setFiltersData } = filtersSlice.actions;
 export default filtersSlice.reducer;

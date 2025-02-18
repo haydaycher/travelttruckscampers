@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import css from './Pagination.module.css';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
@@ -9,9 +8,36 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     }
   };
 
+  const handlePageClick = (page) => {
+    if (page !== currentPage) {
+      onPageChange(page);
+    }
+  };
+
   return (
     <div className={css.pagination}>
-      {currentPage < totalPages && <LoadMoreBtn onClick={handleLoadMore} />}
+      {/* Кнопки для кожної сторінки */}
+      {[...Array(totalPages)].map((_, index) => (
+        <button
+          key={index}
+          className={`${css.pageButton} ${currentPage === index + 1 ? css.activePage : ''}`}
+          onClick={() => handlePageClick(index + 1)}
+          disabled={currentPage === index + 1}
+        >
+          {index + 1}
+        </button>
+      ))}
+
+      <div className={css.pageInfo}>
+        Page {currentPage} of {totalPages}
+      </div>
+
+      {/* Кнопка Load More */}
+      {currentPage < totalPages && (
+        <button className={css.pageButton} onClick={handleLoadMore}>
+          Load More
+        </button>
+      )}
     </div>
   );
 };

@@ -1,4 +1,3 @@
-// File: src/redux/operations.js
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -8,65 +7,74 @@ export const fetchCampers = createAsyncThunk(
   'campers/fetchAll',
   async (params = {}, { rejectWithValue }) => {
     try {
-      const { location, type, page = 1, limit = 10 } = params;
+      const { location, form, amenities = [], page = 1, limit = 10 } = params;
+
       let url = `${BASE_URL}?page=${page}&limit=${limit}`;
 
+      // Додаємо фільтрацію по локації
       if (location) url += `&location=${encodeURIComponent(location)}`;
-      // Якщо API використовує поле "form" для типу, то:
-      if (type) {
-        console.log('Using type filter:', type);
-        url += `&form=${encodeURIComponent(type)}`;
+
+      // Додаємо фільтрацію по типу кемпера (якщо є)
+      if (form) url += `&form=${encodeURIComponent(form.toLowerCase())}`;
+
+      // Якщо обрані amenities, додаємо їх у запит
+      if (amenities.length > 0) {
+        amenities.forEach((amenity) => {
+          url += `&${amenity.toLowerCase()}=true`;
+        });
       }
 
-      console.log('Fetching URL:', url);
+      console.log('Fetching URL:', url); // Перевірка формування URL
 
       const response = await axios.get(url);
-      console.log('Full response:', response);
-      console.log('Response data:', response.data);
+      if (!response || response.status !== 200) {
+        console.error('Error fetching data:', response);
+        throw new Error('Data fetch failed');
+      }
 
-      // Припускаємо, що API повертає дані у форматі:
-      // { "total": 23, "items": [ ... ] }
-      const { total, items } = response.data;
+      const { items, total } = response.data;
       const totalPages = Math.ceil(total / limit);
 
       return { items, totalPages };
     } catch (error) {
-      if (error.response) {
-        console.error('Error response:', error.response);
-        if (error.response.status === 404) {
-          // Якщо сервер повернув 404, повертаємо порожній масив
-          return { items: [], totalPages: 1 };
-        }
-        return rejectWithValue(
-          `Сервер відповів з помилкою: ${error.response.status}`,
-        );
-      } else if (error.request) {
-        console.error('Error request:', error.request);
-        return rejectWithValue('Запит надіслано, але відповідь не отримано');
-      } else {
-        console.error('Error message:', error.message);
-        return rejectWithValue(`Помилка: ${error.message}`);
-      }
+      return rejectWithValue(error.message);
     }
   },
 );
 
-export const fetchCamperById = createAsyncThunk(
-  'campers/fetchById',
-  async (id, { rejectWithValue }) => {
+// Фетчинг унікальних значень location, form, amenities
+export const fetchFiltersData = createAsyncThunk(
+  'campers/fetchFiltersData',
+  async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${BASE_URL}/${id}`);
-      return data;
+      const response = await axios.get(BASE_URL);
+      console.log('Response Data:', response.data);
+
+      const campers = response.data;
+
+      const locations = [...new Set(campers.map((camper) => camper.location))];
+      const forms = [
+        ...new Set(campers.map((camper) => camper.form.toLowerCase())),
+      ];
+
+      const allAmenities = [
+        'AC',
+        'kitchen',
+        'bathroom',
+        'TV',
+        'radio',
+        'refrigerator',
+        'microwave',
+        'gas',
+        'water',
+      ];
+      const availableAmenities = allAmenities.filter((amenity) =>
+        campers.some((camper) => camper[amenity] === true),
+      );
+
+      return { locations, forms, availableAmenities };
     } catch (error) {
-      if (error.response) {
-        return rejectWithValue(
-          `Сервер відповів з помилкою: ${error.response.status}`,
-        );
-      } else if (error.request) {
-        return rejectWithValue('Запит надіслано, але відповідь не отримано');
-      } else {
-        return rejectWithValue(`Помилка: ${error.message}`);
-      }
+      return rejectWithValue(error.message);
     }
   },
 );
