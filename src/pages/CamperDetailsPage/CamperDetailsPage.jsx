@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCamperById } from '../../redux/operations';
+import { fetchFiltersData } from '../../redux/operations.js';
 import Loader from '../../components/Loader/Loader';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { Helmet } from 'react-helmet-async';
@@ -12,7 +12,7 @@ const CamperDetailsPage = () => {
   const { selectedCamper, status } = useSelector((state) => state.campers);
 
   useEffect(() => {
-    dispatch(fetchCamperById(id));
+    dispatch(fetchFiltersData(id));
   }, [dispatch, id]);
 
   if (status === 'loading') return <Loader />;
