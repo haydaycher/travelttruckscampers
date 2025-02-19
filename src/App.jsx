@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import HeaderMenu from './components/HeaderMenu/HeaderMenu';
 import Loader from './components/Loader/Loader';
 import { HelmetProvider } from 'react-helmet-async';
@@ -18,11 +18,7 @@ const App = () => (
         <Route path="/" element={<HeaderMenu />}>
           <Route index element={<HomePage />} />
           <Route path="catalog" element={<CatalogPage />} />
-          <Route
-            path="catalog/:id"
-            element={<Navigate to="features" replace />}
-          />
-          <Route path="catalog/:id/*" element={<CamperDetailsPage />} />
+          <Route path="catalog/:id" element={<CamperDetailsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

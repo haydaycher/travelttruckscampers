@@ -18,3 +18,27 @@
   flex-direction: column;
   gap: 20px;
 }
+.show_fav_btn:hover {
+  background-color: var(--button-hover);
+}
+.show_fav_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap; /* Забороняє перенесення тексту */
+  border-radius: 200px;
+  padding: 16px 60px;
+  width: 166px;
+  height: 56px;
+  background: var(--button);
+  margin-top: 24px;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  transition: background 0.3s ease;
+  border: none;
+  cursor: pointer;
+}

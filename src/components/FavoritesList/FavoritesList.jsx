@@ -1,30 +1,43 @@
-// File: src/components/FavoritesList/FavoritesList.jsx
-
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'; // Імпортуємо Link для навігації
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { fetchCamperById } from '../../redux/operations';
+import {
+  selectSelectedCamper,
+  selectStatus,
+} from '../../redux/campers/campers.selectors';
 import css from './FavoritesList.module.css';
 
 const FavoritesList = () => {
-  // Отримуємо список id улюблених кемперів з Redux store з використанням optional chaining
+  const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favs?.favorites || []);
-  // Отримуємо загальний список кемперів, який вже завантажено з бекенду
   const campers = useSelector((state) => state.campers.items || []);
+  const status = useSelector(selectStatus);
 
-  // Фільтруємо список кемперів, залишаючи лише ті, які є в улюблених
+  // Фільтруємо улюблені кемпери, які вже є у store
   const favoriteCampers = campers.filter((camper) =>
     favorites.includes(camper.id),
   );
 
+  // Якщо якогось кемпера немає в `state.campers.items`, завантажуємо його
+  useEffect(() => {
+    favorites.forEach((id) => {
+      if (!campers.some((camper) => camper.id === id)) {
+        dispatch(fetchCamperById(id));
+      }
+    });
+  }, [dispatch, favorites, campers]);
+
   return (
     <div className={css.favoritesList}>
-      <h2>Your Favorites</h2>
-      {favoriteCampers.length > 0 ? (
+      <h2 className={css.favListHeader}>Your Favorites</h2>
+      {status === 'loading' ? (
+        <p>Loading favorites...</p>
+      ) : favoriteCampers.length > 0 ? (
         <ul>
           {favoriteCampers.map((camper) => (
             <li key={camper.id}>
-              {/* Кожен елемент у списку є посиланням на сторінку деталей цього кемпера.
-                  Припускаємо, що маршрут для деталей виглядає так: /campers/:id */}
-              <Link to={`/campers/${camper.id}`} className={css.favoriteLink}>
+              <Link to={`/catalog/${camper.id}`} className={css.favoriteLink}>
                 {camper.name}
               </Link>
             </li>

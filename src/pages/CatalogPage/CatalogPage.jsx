@@ -75,7 +75,10 @@ const CatalogPage = () => {
         />
       </div>
       {/* Кнопка для перемикання відображення списку улюблених кемперів */}
-      <button onClick={() => setShowFavorites((prev) => !prev)}>
+      <button
+        className={css.show_fav_btn}
+        onClick={() => setShowFavorites((prev) => !prev)}
+      >
         {showFavorites ? 'Hide Favorites' : 'Show Favorites'}
       </button>
       {/* Якщо showFavorites true, відображаємо компонент FavoritesList */}

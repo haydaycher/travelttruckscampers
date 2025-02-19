@@ -78,3 +78,19 @@ export const fetchFiltersData = createAsyncThunk(
     }
   },
 );
+
+// Фетчинг конкретного кемпера за ID
+export const fetchCamperById = createAsyncThunk(
+  'campers/fetchById',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/${id}`);
+      if (!response || response.status !== 200) {
+        throw new Error('Failed to fetch camper details');
+      }
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
