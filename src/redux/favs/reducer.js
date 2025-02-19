@@ -1,12 +1,11 @@
-// reducer.js
+// File: src/redux/favs/reducer.js
 import { ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES } from './actions';
 
 const initialState = {
-  campers: [], // Список всіх кемперів
-  favorites: [], // Список улюблених кемперів
+  favorites: [], // Початковий стан для зберігання улюблених кемперів
 };
 
-const camperReducer = (state = initialState, action) => {
+const favsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_FAVORITES:
       return {
@@ -23,4 +22,4 @@ const camperReducer = (state = initialState, action) => {
   }
 };
 
-export default camperReducer;
+export default favsReducer;

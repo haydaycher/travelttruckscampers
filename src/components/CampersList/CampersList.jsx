@@ -1,70 +1,26 @@
-import React from 'react';
+// File: src/components/CampersList/CampersList.jsx
+
 import { useSelector, useDispatch } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../../redux/favs/actions';
 import Pagination from '../Pagination/Pagination';
-import {
-  selectLoading,
-  selectError,
-} from '../../redux/campers/campers.selectors';
-import { selectFilteredCampers } from '../../redux/campers/selectFilteredCampers';
 import css from './CampersList.module.css';
 
-// const CampersList = ({ filters, onPageChange }) => {
-//   const dispatch = useDispatch();
-//   const loading = useSelector(selectLoading);
-//   const error = useSelector(selectError);
-//   const filteredCampers = useSelector((state) =>
-//     selectFilteredCampers(state, filters),
-//   );
-//   const itemsPerPage = 4;
-
-//   const handleAddFav = (id) => {
-//     dispatch(addToFavorites(id));
-//   };
-
-//   const handleRemoveFav = (id) => {
-//     dispatch(removeFromFavorites(id));
-//   };
-
-//   if (loading) return <div>Loading...</div>;
-//   if (error) return <div>Error: {error}</div>;
-
-//   return (
-//     <div>
-//       <ul>
-//         {filteredCampers.slice(0, itemsPerPage).map((camper) => (
-//           <li key={camper.id}>
-//             <h3>{camper.name}</h3>
-//             <p>{camper.location}</p>
-//             <p>{camper.form || camper.type}</p>
-//             <div>
-//               {(camper.features || []).map((feature, index) => (
-//                 <span key={index}>{feature} </span>
-//               ))}
-//             </div>
-//             <button onClick={() => handleAddFav(camper.id)}>
-//               Add to Favorites
-//             </button>
-//             <button onClick={() => handleRemoveFav(camper.id)}>
-//               Remove from Favorites
-//             </button>
-//           </li>
-//         ))}
-//       </ul>
-// <Pagination
-//   currentPage={filters.page}
-//   totalPages={Math.ceil(filteredCampers.length / itemsPerPage)}
-//   onPageChange={onPageChange}
-// />
-//     </div>
-//   );
-// };
-
-// export default CampersList;
-
 const CampersList = ({ items, filters, onPageChange }) => {
+  const dispatch = useDispatch();
+  // Отримуємо список улюблених кемперів з Redux store,
+  // використовуючи optional chaining, щоб уникнути помилок, якщо favs не визначено
+  const favorites = useSelector((state) => state.favs?.favorites || []);
   const itemsPerPage = 4;
   const totalPages = Math.ceil(items.length / itemsPerPage);
+
+  // Функція для додавання/видалення кемпера з улюблених
+  const handleFavoriteToggle = (camperId) => {
+    if (favorites.includes(camperId)) {
+      dispatch(removeFromFavorites(camperId)); // Якщо кемпер вже є улюбленим, видаляємо його
+    } else {
+      dispatch(addToFavorites(camperId)); // Інакше, додаємо до улюблених
+    }
+  };
 
   return (
     <div className={css.campers_list}>
@@ -82,7 +38,21 @@ const CampersList = ({ items, filters, onPageChange }) => {
               <div className={css.camper_info}>
                 <p>{camper.location}</p>
                 <p>{camper.description}</p>
-                <p>Price: ${camper.price}</p>
+                {/* Блок з ціною та іконкою серця */}
+                <div className={css.price_favorite}>
+                  <p>Price: ${camper.price}</p>
+                  {/* SVG-іконка серця з обробником кліку */}
+                  <svg
+                    onClick={() => handleFavoriteToggle(camper.id)}
+                    className={`${css.heart_icon} ${
+                      favorites.includes(camper.id) ? css.favorited : ''
+                    }`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                  </svg>
+                </div>
                 <p>Rating: {camper.rating}</p>
                 <p>Transmission: {camper.transmission}</p>
               </div>

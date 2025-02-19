@@ -86,3 +86,24 @@
 .show_more_btn:hover {
   background-color: var(--button-hover);
 }
+.price_favorite {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heart_icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: #000;
+  cursor: pointer;
+  transition:
+    fill 0.3s ease,
+    stroke 0.3s ease;
+}
+
+.favorited {
+  fill: red;
+  stroke: red;
+}
