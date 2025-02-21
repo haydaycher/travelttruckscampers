@@ -11,6 +11,12 @@
   align-items: center;
   text-align: center;
 }
+.filterLabelWrapper p {
+  text-align: center;
+  white-space: normal; /* дозволяє перенос рядків */
+  word-break: normal; /* розбиває довгі слова, якщо потрібно */
+}
+
 .labelSearch {
   font-family: var(--font-family);
   font-weight: 400;
@@ -56,16 +62,11 @@
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
+  align-items: center;
 }
-.icon {
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-}
-input[type='checkbox'] {
+
+input[type='checkbox'],
+input[type='radio'] {
   opacity: 0;
   position: absolute;
   left: 0;
@@ -101,7 +102,7 @@ input[type='checkbox'] {
 
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 8px;
   margin-top: 48px;
 }
 
@@ -112,35 +113,38 @@ input[type='checkbox'] {
 
 .iconWrapper {
   display: flex;
-
-  height: 64px;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
 }
 .iconWrapper svg {
+  position: static; /* або relative, якщо потрібно */
   width: 32px;
   height: 32px;
-  margin-bottom: 8px;
+  margin-top: 16px;
+  /* margin-bottom: 8px; */
 }
+.iconWrapper p {
+  margin: 0;
+  text-align: center;
+  line-height: 1.2;
+}
+
 .checkboxWrapper {
   position: relative;
   border: 1px solid var(--gray-light);
   border-radius: 12px;
-  padding: 16px 18px;
+  justify-content: center;
   width: 112px;
   height: 96px;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 
 .checkboxWrapper input[type='checkbox'],
 .checkboxWrapper input[type='radio'] {
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
+  top: 16px;
+  left: 18px;
 }
 
 .checkboxWrapper:hover,

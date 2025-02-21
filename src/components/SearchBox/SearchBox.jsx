@@ -132,7 +132,7 @@ const SearchBox = ({ onSearch, onCategoryChange, selectedCategories = [] }) => {
                       checked={values.form === vehicleType}
                       onChange={() => setFieldValue('form', vehicleType)}
                     />
-                    <div className={css.filterLabelWrapper}>
+                    <div className={css.iconWrapper}>
                       <svg
                         className={css.icon}
                         aria-hidden="true"
