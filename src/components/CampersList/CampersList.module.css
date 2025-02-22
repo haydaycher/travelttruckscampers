@@ -2,32 +2,38 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* gap: 32px; */
-  width: 100%;
+  gap: 32px;
+
   max-width: 888px;
   height: 100%;
   max-height: 1568px;
-  padding: 20px;
 }
 
 .campers_list ul {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 24;
   width: 100%;
   /* display: flex; */
   flex-direction: column;
 }
 
 .campers_item {
-  width: 888px;
-  height: 368px;
+  /* width: 888px;
+  height: auto; */
   display: flex;
-  align-items: flex-start;
-  background: #f8f9fa;
+  /* align-items: flex-start;
+  */
+  margin-bottom: 32px;
+  gap: 24px;
+  border: 1px solid var(--gray-light);
+  background: var(--white);
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.campers_item:last-child {
+  margin-bottom: 0;
 }
 
 .camper_image {
@@ -41,7 +47,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  /* align-items: flex-start; */
+  width: 100%;
 }
 
 .camper_name {
@@ -49,7 +56,8 @@
   font-size: 24px;
   line-height: 1.33333;
   color: #101828;
-  margin-bottom: 8px;
+
+  flex-grow: 1;
 }
 
 /* Якщо у вас немає класу location, додаємо його */
@@ -61,10 +69,11 @@
 
 /* Якщо немає класу price, додаємо */
 .price {
-  margin: 5px 0;
-  font-weight: bold;
-  font-size: 18px;
-  color: #101828;
+  /* margin: 5px 0; */
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 133%;
+  color: var(--main);
 }
 
 /* Нові стилі для рейтингу */
@@ -88,17 +97,6 @@
   color: #555;
 }
 
-/* Якщо немає класу amenities_list, додаємо */
-.amenities_list {
-  list-style: none;
-  padding: 0;
-  margin: 5px 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
 .amenity_item {
   border-radius: 100px;
   padding: 12px 18px;
@@ -110,36 +108,41 @@
 
 /* Якщо у вас вже є клас для кнопки Show More, використовуємо .show_more_btn */
 .show_more_btn {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background-color: #007bff;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 4px;
-  display: inline-block;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap; /* Забороняє перенесення тексту */
+  border-radius: 200px;
+  padding: 16px 60px;
+  width: 166px;
+  height: 56px;
+  background: var(--button);
+  margin-top: 24px;
   font-family: var(--font-family);
   font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--white);
   transition: background 0.3s ease;
   border: none;
   cursor: pointer;
 }
 
 .show_more_btn:hover {
-  background-color: var(--button-hover, #0056b3);
+  background-color: var(--button-hover);
 }
 
 /* Оригінальний клас price_favorite, якщо потрібен */
 .price_favorite {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Розміщуємо контент праворуч */
   font-weight: 600;
   font-size: 24px;
   line-height: 1.33333;
   color: #101828;
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
+  gap: 8px;
 }
 
 /* Класи для іконки серця */
@@ -165,4 +168,71 @@
   margin-top: 5px;
   font-size: 16px;
   color: #101828;
+}
+/* Add styles for icons next to text */
+.icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+/* Update the amenities list to better display icons and text */
+.amenities_list {
+  list-style: none;
+  padding: 0;
+  margin: 5px 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+/* .amenities_list ul {
+  list-style: none;
+  padding: 0;
+  width: 524px;
+  height: 104px;
+} */
+
+.amenity_item {
+  display: flex;
+  align-items: center;
+  border-radius: 100px;
+  padding: 12px 18px;
+  width: 143px;
+  height: 48px;
+  background: #f2f4f7;
+  mix-blend-mode: multiply;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  text-align: center;
+  color: var(--main);
+}
+
+.amenity_item svg {
+  margin-right: 8px;
+}
+
+/* Adjust for the "..." if there are more than 4 amenities */
+.amenity_item {
+  font-size: 14px;
+  color: #101828;
+}
+
+.amenity_item:last-child {
+  margin-bottom: 0;
+}
+.camper_internal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8px;
+}
+.camper_rate_location {
+  display: flex;
+  gap: 16px;
 }
