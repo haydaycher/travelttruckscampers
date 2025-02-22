@@ -25,24 +25,20 @@ const vehicleTypeIcons = {
   Alcove: '#icon-nine-squares',
 };
 
-const SearchBox = ({ onSearch, onCategoryChange, selectedCategories = [] }) => {
+const SearchBox = ({ onCategoryChange, selectedCategories = [] }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values) => {
-    if (!values.location.trim()) return;
-
+    // Оскільки локація є обов'язковою, додаткову перевірку можна опустити.
     dispatch(fetchFiltersData(values));
-    dispatch(fetchCampers(values)); // Переконайтесь, що тут використовуються правильні параметри
-  };
-
-  const handleSearchChange = (event) => {
-    const { value } = event.target;
-    onSearch(value);
+    dispatch(fetchCampers(values));
+    // Передаємо усі значення фільтрів батьківському компоненту після натискання кнопки Search
+    onCategoryChange(values);
   };
 
   const initialValues = {
     location: '',
-    amenities: selectedCategories, // Використовуємо amenities
+    amenities: selectedCategories,
     form: '',
   };
 
@@ -69,6 +65,7 @@ const SearchBox = ({ onSearch, onCategoryChange, selectedCategories = [] }) => {
               >
                 <use href="/icons-svg.svg#icon-map"></use>
               </svg>
+              {/* Видаляємо onChange – дані оновлюються всередині Formik і сабміт відбувається тільки при натисканні кнопки */}
               <Field
                 className={css.inputSearch}
                 type="text"
@@ -86,7 +83,7 @@ const SearchBox = ({ onSearch, onCategoryChange, selectedCategories = [] }) => {
                     <label key={category} className={css.checkboxWrapper}>
                       <Field
                         type="checkbox"
-                        name="amenities" // Замінили на amenities
+                        name="amenities"
                         value={category}
                         checked={values.amenities.includes(category)}
                         onChange={() => {
@@ -96,7 +93,6 @@ const SearchBox = ({ onSearch, onCategoryChange, selectedCategories = [] }) => {
                               )
                             : [...values.amenities, category];
                           setFieldValue('amenities', nextValue);
-                          onCategoryChange(nextValue); // Call this function
                         }}
                       />
                       <div className={css.iconWrapper}>

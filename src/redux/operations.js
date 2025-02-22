@@ -20,7 +20,12 @@ export const fetchCampers = createAsyncThunk(
       // Якщо обрані amenities, додаємо їх у запит
       if (amenities.length > 0) {
         amenities.forEach((amenity) => {
-          url += `&${amenity.toLowerCase()}=true`;
+          // Якщо ключ є "AC" або "TV", залишаємо без змін, інакше переводимо в нижній регістр
+          const param =
+            amenity === 'AC' || amenity === 'TV'
+              ? amenity
+              : amenity.toLowerCase();
+          url += `&${param}=true`;
         });
       }
 
