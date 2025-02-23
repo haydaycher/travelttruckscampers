@@ -30,7 +30,7 @@ const FavoritesList = () => {
 
   return (
     <div className={css.favoritesList}>
-      <h2 className={css.favListHeader}>Your Favorites</h2>
+      {/* <h2 className={css.favListHeader}>Your Favorites:</h2> */}
       {status === 'loading' ? (
         <p>Loading favorites...</p>
       ) : favoriteCampers.length > 0 ? (

@@ -98,8 +98,13 @@ const CatalogPage = () => {
         className={css.show_fav_btn}
         onClick={() => setShowFavorites((prev) => !prev)}
       >
-        {showFavorites ? 'Hide Favorites' : 'Show Favorites'}
+        <span>{showFavorites ? 'Hide Favorites' : 'Show Favorites'}</span>
+        <svg width="13px" height="10px" viewBox="0 0 13 10">
+          <path d="M1,5 L11,5"></path>
+          <polyline points="8 1 12 5 8 9"></polyline>
+        </svg>
       </button>
+
       {showFavorites && <FavoritesList />}
       <div className={css.listSection}>
         <CampersList filters={searchFilters} items={items} />
