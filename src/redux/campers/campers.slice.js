@@ -1,4 +1,4 @@
-// campers.slice.js
+// File: src/redux/campers/campers.slice.js
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchCampers, fetchCamperById } from '../operations';
 
@@ -18,6 +18,7 @@ const campersSlice = createSlice({
       })
       .addCase(fetchCampers.fulfilled, (state, action) => {
         state.status = 'succeeded';
+        // Завжди замінюємо список записів, тому що відображається лише поточна сторінка (4 записи)
         state.items = action.payload.items;
         state.totalPages = action.payload.totalPages;
       })
@@ -25,13 +26,12 @@ const campersSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      // Додаємо логіку для `fetchCamperById`
       .addCase(fetchCamperById.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(fetchCamperById.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        // Якщо кемпер ще не в `items`, додаємо його
+        // Якщо кемперу ще немає в списку, додаємо його (для деталей)
         if (!state.items.some((camper) => camper.id === action.payload.id)) {
           state.items.push(action.payload);
         }

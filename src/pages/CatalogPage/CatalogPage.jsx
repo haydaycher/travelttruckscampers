@@ -1,4 +1,4 @@
-// CatalogPage.jsx
+// File: src/pages/CatalogPage/CatalogPage.jsx
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCampers } from '../../redux/operations';
@@ -12,17 +12,16 @@ import { Helmet } from 'react-helmet-async';
 
 const CatalogPage = () => {
   const dispatch = useDispatch();
-  const { status, items } = useSelector((state) => state.campers);
+  const { status, items, totalPages } = useSelector((state) => state.campers);
 
+  // Початкові фільтри: 4 записи на запит
   const [searchFilters, setSearchFilters] = useState({
     location: '',
     form: '',
     amenities: [],
     page: 1,
-    limit: 10,
+    limit: 4,
   });
-  const [visibleCount, setVisibleCount] = useState(10);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
 
   useEffect(() => {
@@ -30,48 +29,47 @@ const CatalogPage = () => {
   }, [dispatch, searchFilters]);
 
   const handleFilterChange = (updatedFilters) => {
+    setSearchFilters({
+      ...updatedFilters,
+      page: 1, // при зміні фільтрів починаємо з першої сторінки
+      limit: 4,
+    });
+  };
+
+  // Обробка кнопки "Load More" — збільшуємо номер сторінки
+  const handleLoadMore = () => {
+    if (searchFilters.page < totalPages) {
+      setSearchFilters((prev) => ({
+        ...prev,
+        page: prev.page + 1,
+      }));
+    }
+  };
+
+  // Обробка кнопки "Back to Start" — повертаємося на першу сторінку
+  const handleBackToStart = () => {
     setSearchFilters((prev) => ({
       ...prev,
-      ...updatedFilters,
       page: 1,
     }));
   };
 
-  const handlePageChange = (newPage) => {
-    setSearchFilters((prev) => ({ ...prev, page: newPage }));
-  };
-
-  const handleLoadMore = () => {
-    setIsLoadingMore(true);
-    setVisibleCount((prevCount) => prevCount + searchFilters.limit);
-    setTimeout(() => {
-      setIsLoadingMore(false);
-    }, 1000);
-  };
   const handleResetFilters = () => {
     setSearchFilters({
       location: '',
       form: '',
       amenities: [],
       page: 1,
-      limit: 10,
+      limit: 4,
     });
   };
 
-  if (status === 'loading' && !isLoadingMore) return <Loader />;
-  // Якщо статус 'failed' – можна відобразити окреме повідомлення про помилку (але це окремий випадок)
+  if (status === 'loading') return <Loader />;
   if (status === 'failed')
     return (
       <div className={css.errorMessage}>
         <h2>Упс! Щось пішло не так 😔</h2>
         <p>Не вдалося отримати дані з сервера.</p>
-        <p>Можливі причини:</p>
-        <ul>
-          <li>Проблеми з інтернет-з'єднанням</li>
-          <li>Сервер тимчасово недоступний</li>
-          <li>Неправильні параметри пошуку</li>
-        </ul>
-        <p>Спробуйте перезавантажити сторінку або змінити фільтри.</p>
         <button
           onClick={() => window.location.reload()}
           className={css.retryButton}
@@ -80,7 +78,6 @@ const CatalogPage = () => {
         </button>
       </div>
     );
-  // Якщо результатів немає, показуємо NoResultsMessage
   if (items && items.length === 0)
     return (
       <NoResultsMessage
@@ -105,24 +102,16 @@ const CatalogPage = () => {
       </button>
       {showFavorites && <FavoritesList />}
       <div className={css.listSection}>
-        {items && items.length > 0 ? (
-          <>
-            <CampersList
-              filters={searchFilters}
-              onPageChange={handlePageChange}
-              items={items.slice(0, visibleCount)}
-            />
-            {visibleCount < items.length && (
-              <button
-                onClick={handleLoadMore}
-                disabled={isLoadingMore}
-                className={`${isLoadingMore ? css.loadingButton : ''}`}
-              >
-                {isLoadingMore ? 'Завантаження...' : 'Завантажити ще'}
-              </button>
-            )}
-          </>
-        ) : null}
+        <CampersList filters={searchFilters} items={items} />
+        {searchFilters.page < totalPages ? (
+          <button onClick={handleLoadMore} className={css.loadMoreButton}>
+            Load More
+          </button>
+        ) : (
+          <button onClick={handleBackToStart} className={css.loadMoreButton}>
+            Back to Start
+          </button>
+        )}
       </div>
     </div>
   );
