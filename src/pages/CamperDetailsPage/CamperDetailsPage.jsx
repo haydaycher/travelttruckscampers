@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCamperById } from '../../redux/operations';
 import Loader from '../../components/Loader/Loader';
@@ -8,6 +8,13 @@ import { Helmet } from 'react-helmet-async';
 import css from './CamperDetailsPage.module.css';
 
 const CamperDetailsPage = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash === '#reviews') {
+      setActiveTab('reviews'); // відкриваємо вкладку відгуків
+    }
+  }, [location.hash]);
   const { id } = useParams();
   const dispatch = useDispatch();
   const { selectedCamper, status } = useSelector((state) => state.campers);

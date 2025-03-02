@@ -67,21 +67,26 @@ const CampersList = ({ items, filters }) => {
                 </div>
                 <div className={css.camper_rate_location}>
                   <p className={css.rating}>
-                    <svg
-                      width="16"
-                      height="15"
-                      viewBox="0 0 16 15"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <Link
+                      to={`/catalog/${camper.id}#reviews`}
+                      className={css.rating_link}
                     >
-                      <use
-                        href={`/icons-svg.svg#${camper.rating < 3 ? 'icon-star' : 'icon-star-gold'}`}
-                      />
-                    </svg>
-                    <span className={css.rating_text}>
-                      {camper.rating} (
-                      {camper.reviews ? camper.reviews.length : 0} Reviews)
-                    </span>
+                      <svg
+                        width="16"
+                        height="15"
+                        viewBox="0 0 16 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <use
+                          href={`/icons-svg.svg#${camper.rating < 3 ? 'icon-star' : 'icon-star-gold'}`}
+                        />
+                      </svg>
+                      <span className={css.rating_text}>
+                        {camper.rating} (
+                        {camper.reviews ? camper.reviews.length : 0} Reviews)
+                      </span>
+                    </Link>
                   </p>
                   <p className={css.location}>
                     <svg
