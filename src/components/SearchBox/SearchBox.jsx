@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import css from './SearchBox.module.css';
 import { useDispatch } from 'react-redux';
 import { fetchFiltersData } from '../../redux/filters/filters.slice';
@@ -25,14 +26,18 @@ const vehicleTypeIcons = {
   Alcove: '#icon-nine-squares',
 };
 
-const SearchBox = ({ onCategoryChange, selectedCategories = [] }) => {
+const SearchBox = ({
+  onCategoryChange,
+  selectedCategories = [],
+  showFavorites,
+  onToggleFavorites,
+}) => {
   const dispatch = useDispatch();
+  const [showTips, setShowTips] = useState(false);
 
   const handleSubmit = (values) => {
-    // Оскільки локація є обов'язковою, додаткову перевірку можна опустити.
     dispatch(fetchFiltersData(values));
     dispatch(fetchCampers(values));
-    // Передаємо усі значення фільтрів батьківському компоненту після натискання кнопки Search
     onCategoryChange(values);
   };
 
@@ -65,12 +70,11 @@ const SearchBox = ({ onCategoryChange, selectedCategories = [] }) => {
               >
                 <use href="/icons-svg.svg#icon-map"></use>
               </svg>
-              {/* Видаляємо onChange – дані оновлюються всередині Formik і сабміт відбувається тільки при натисканні кнопки */}
               <Field
                 className={css.inputSearch}
                 type="text"
                 name="location"
-                placeholder="Search location"
+                placeholder="Наприклад, Kyiv або Lviv"
               />
             </div>
 
@@ -154,6 +158,52 @@ const SearchBox = ({ onCategoryChange, selectedCategories = [] }) => {
           </Form>
         )}
       </Formik>
+
+      {/* Інтерактивна кнопка для підказок */}
+      <button
+        type="button"
+        className={css.tipsToggleButton}
+        onClick={() => setShowTips((prev) => !prev)}
+      >
+        {showTips ? 'Сховати поради' : 'Показати поради'}
+      </button>
+      {showTips && (
+        <div className={css.tipsContainer}>
+          <strong>Поради для пошуку:</strong>
+          <ul>
+            <li>
+              Введіть коректну назву локації (наприклад, "Kyiv" або "Lviv").
+              Якщо назва введена з помилкою, результати можуть бути відсутні.
+            </li>
+            <li>
+              Обирайте лише 1-2 опції обладнання. Якщо вкажете занадто багато,
+              система шукатиме кемпери, що відповідають усім умовам, і це може
+              призвести до відсутності результатів.
+            </li>
+            <li>
+              Виберіть тип транспортного засобу (Van, Fully Integrated, Alcove)
+              для більш точного пошуку.
+            </li>
+            <li>
+              Якщо результати не знайдено, спробуйте скинути фільтри та пошукати
+              ще раз.
+            </li>
+          </ul>
+        </div>
+      )}
+
+      {/* Інтерактивна кнопка для Show Favorites */}
+      <button
+        type="button"
+        className={css.favoritesToggleButton}
+        onClick={onToggleFavorites}
+      >
+        <span>{showFavorites ? 'Hide Favorites' : 'Show Favorites'}</span>
+        <svg width="13px" height="10px" viewBox="0 0 13 10">
+          <path d="M1,5 L11,5"></path>
+          <polyline points="8 1 12 5 8 9"></polyline>
+        </svg>
+      </button>
     </div>
   );
 };

@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import css from './Pagination.module.css';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  const handleLoadMore = () => {
-    if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
-    }
-  };
+  // const handleLoadMore = () => {
+  //   if (currentPage < totalPages) {
+  //     onPageChange(currentPage + 1);
+  //   }
+  // };
 
   const handlePageClick = (page) => {
     if (page !== currentPage) {
@@ -33,11 +33,11 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       </div>
 
       {/* Кнопка Load More */}
-      {currentPage < totalPages && (
+      {/* {currentPage < totalPages && (
         <button className={css.pageButton} onClick={handleLoadMore}>
           Load More
         </button>
-      )}
+      )} */}
     </div>
   );
 };
