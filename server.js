@@ -4,10 +4,10 @@ import { fileURLToPath } from 'url';
 import compression from 'compression';
 import helmet from 'helmet';
 
+const app = express();
 app.use(helmet());
 app.use(compression());
 
-const app = express();
 const PORT = process.env.PORT || 10000;
 
 // Визначаємо кореневу директорію (оскільки використовуємо ES-модулі)
