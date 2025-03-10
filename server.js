@@ -5,7 +5,20 @@ import compression from 'compression';
 import helmet from 'helmet';
 
 const app = express();
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        connectSrc: ["'self'", 'https://66b1f8e71ca8ad33d4f5f63e.mockapi.io'],
+        imgSrc: ["'self'", 'data:'],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+      },
+    },
+  }),
+);
+
 app.use(compression());
 
 const PORT = process.env.PORT || 10000;
