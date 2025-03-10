@@ -1,6 +1,11 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import compression from 'compression';
+import helmet from 'helmet';
+
+app.use(helmet());
+app.use(compression());
 
 const app = express();
 const PORT = process.env.PORT || 10000;

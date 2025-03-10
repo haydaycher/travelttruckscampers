@@ -11,6 +11,7 @@ export default defineConfig({
     outDir: 'dist',
   },
   resolve: {
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
     alias: {
       '@': '/src',
     },

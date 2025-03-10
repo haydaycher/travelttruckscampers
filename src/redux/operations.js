@@ -1,3 +1,4 @@
+// operations.js
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -8,19 +9,14 @@ export const fetchCampers = createAsyncThunk(
   async (params = {}, { rejectWithValue }) => {
     try {
       const { location, form, amenities = [], page = 1, limit = 10 } = params;
-
       let url = `${BASE_URL}?page=${page}&limit=${limit}`;
 
-      // Додаємо фільтрацію по локації
       if (location) url += `&location=${encodeURIComponent(location)}`;
+      if (form && typeof form === 'string')
+        url += `&form=${encodeURIComponent(form.toLowerCase())}`;
 
-      // Додаємо фільтрацію по типу кемпера (якщо є)
-      if (form) url += `&form=${encodeURIComponent(form.toLowerCase())}`;
-
-      // Якщо обрані amenities, додаємо їх у запит
       if (amenities.length > 0) {
         amenities.forEach((amenity) => {
-          // Якщо ключ є "AC" або "TV", залишаємо без змін, інакше переводимо в нижній регістр
           const param =
             amenity === 'AC' || amenity === 'TV'
               ? amenity
@@ -29,32 +25,28 @@ export const fetchCampers = createAsyncThunk(
         });
       }
 
-      console.log('Fetching URL:', url); // Перевірка формування URL
-
+      console.log('Fetching URL:', url);
       const response = await axios.get(url);
       if (!response || response.status !== 200) {
-        console.error('Error fetching data:', response);
         throw new Error('Data fetch failed');
       }
-
       const { items, total } = response.data;
       const totalPages = Math.ceil(total / limit);
-
-      return { items, totalPages };
+      return { items, totalPages, page };
     } catch (error) {
       return rejectWithValue(error.message);
     }
   },
 );
 
-// Фетчинг унікальних значень location, form, amenities
 export const fetchFiltersData = createAsyncThunk(
   'campers/fetchFiltersData',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(BASE_URL);
-      console.log('Response Data:', response.data);
+      console.log('Fetching campers with params:', params);
+      console.log('Fetching URL:', url);
 
+      const response = await axios.get(BASE_URL);
       const campers = response.data;
 
       const locations = [...new Set(campers.map((camper) => camper.location))];
@@ -84,7 +76,6 @@ export const fetchFiltersData = createAsyncThunk(
   },
 );
 
-// Фетчинг конкретного кемпера за ID
 export const fetchCamperById = createAsyncThunk(
   'campers/fetchById',
   async (id, { rejectWithValue }) => {

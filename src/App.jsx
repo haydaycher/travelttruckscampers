@@ -3,6 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 import HeaderMenu from './components/HeaderMenu/HeaderMenu';
 import Loader from './components/Loader/Loader';
 import { HelmetProvider } from 'react-helmet-async';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const CatalogPage = lazy(() => import('./pages/CatalogPage/CatalogPage'));
@@ -23,6 +25,8 @@ const App = () => (
         </Route>
       </Routes>
     </Suspense>
+    {/* ✅ Єдиний ToastContainer у всьому додатку */}
+    {/* <ToastContainer position="top-right" autoClose={3000} hideProgressBar /> */}
   </HelmetProvider>
 );
 

@@ -23,7 +23,9 @@ const CamperDetailsPage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    dispatch(fetchCamperById(id));
+    if (id) {
+      dispatch(fetchCamperById(id));
+    }
   }, [dispatch, id]);
 
   if (status === 'loading') return <Loader />;

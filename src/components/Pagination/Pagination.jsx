@@ -17,7 +17,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <div className={css.pagination}>
       {/* Кнопки для кожної сторінки */}
-      {[...Array(totalPages)].map((_, index) => (
+      {Array.from({ length: totalPages }, (_, index) => (
         <button
           key={index}
           className={`${css.pageButton} ${currentPage === index + 1 ? css.activePage : ''}`}

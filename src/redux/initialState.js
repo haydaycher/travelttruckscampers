@@ -1,7 +1,7 @@
 export const initialState = {
   locations: [],
   forms: [],
-  availableFeatures: [],
+  availableAmenities: [],
   trucks: [],
   truck: {
     name: '',
@@ -15,9 +15,9 @@ export const initialState = {
   isLoading: false,
   error: null,
   filters: {
-    features: [],
+    availableAmenities: [],
     form: '',
     location: '',
   },
-  favourites: [],
+  favs: [],
 };

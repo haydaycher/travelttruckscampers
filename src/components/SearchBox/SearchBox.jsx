@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import css from './SearchBox.module.css';
 import { useDispatch } from 'react-redux';
-import { fetchFiltersData } from '../../redux/filters/filters.slice';
+import { fetchFiltersData } from '../../redux/operations';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { fetchCampers } from '../../redux/operations';

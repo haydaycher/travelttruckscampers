@@ -1,20 +1,23 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCampers } from '../../redux/operations';
-import SearchBox from '../../components/SearchBox/SearchBox';
+import SearchBox from '../../components/SearchBox/SearchBox.jsx';
 import CampersList from '../../components/CampersList/CampersList';
-import Loader from '../../components/Loader/Loader';
 import FavoritesList from '../../components/FavoritesList/FavoritesList';
-import NoResultsMessage from '../../components/NoResultsMessage/NoResultsMessage';
-import LoadMoreBtn from '../../components/LoadMoreBtn/LoadMoreBtn';
 import css from './CatalogPage.module.css';
 import { Helmet } from 'react-helmet-async';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CatalogPage = () => {
   const dispatch = useDispatch();
-  const { status, items, totalPages } = useSelector((state) => state.campers);
+  const { status, items, totalPages, error } = useSelector(
+    (state) => state.campers,
+  );
 
-  // Початкові фільтри: 4 записи на запит
+  // ✅ Додаємо стан для показу улюблених
+  const [showFavorites, setShowFavorites] = useState(false);
+
   const [searchFilters, setSearchFilters] = useState({
     location: '',
     form: '',
@@ -22,84 +25,59 @@ const CatalogPage = () => {
     page: 1,
     limit: 4,
   });
-  const [showFavorites, setShowFavorites] = useState(false);
+
+  const errorHandled = useRef(false);
 
   useEffect(() => {
     dispatch(fetchCampers(searchFilters));
   }, [dispatch, searchFilters]);
 
-  const handleFilterChange = (updatedFilters) => {
-    setSearchFilters({
-      ...updatedFilters,
-      page: 1, // при зміні фільтрів починаємо з першої сторінки
-      limit: 4,
-    });
-  };
+  useEffect(() => {
+    if (errorHandled.current) return;
 
-  // Обробка кнопки "Load More"
-  const handleLoadMore = () => {
-    if (searchFilters.page < totalPages) {
-      setSearchFilters((prev) => ({
-        ...prev,
-        page: prev.page + 1,
-      }));
+    if (status === 'failed' && String(error).includes('404')) {
+      toast.error('За вашим запитом результатів не знайдено.');
+
+      errorHandled.current = true;
+
+      setTimeout(() => {
+        setSearchFilters({
+          location: '',
+          form: '',
+          amenities: [],
+          page: 1,
+          limit: 4,
+        });
+        errorHandled.current = false;
+      }, 1500);
     }
-  };
+  }, [status, error]);
 
-  // Обробка кнопки "Back to Start"
-  const handleBackToStart = () => {
-    setSearchFilters((prev) => ({
-      ...prev,
+  const handleFilterChange = (updatedFilters) => {
+    setSearchFilters((prevFilters) => ({
+      ...prevFilters,
+      ...updatedFilters,
       page: 1,
     }));
+    errorHandled.current = false;
   };
-
-  const handleResetFilters = () => {
-    setSearchFilters({
-      location: '',
-      form: '',
-      amenities: [],
-      page: 1,
-      limit: 4,
-    });
-  };
-
-  if (status === 'loading') return <Loader />;
-  if (status === 'failed')
-    return (
-      <NoResultsMessage errorMessage="Не вдалося отримати дані з сервера." />
-    );
-  if (items.length === 0)
-    return (
-      <NoResultsMessage
-        filters={searchFilters}
-        onResetFilters={handleResetFilters}
-      />
-    );
 
   return (
     <div className={css.catalogContainer}>
       <Helmet>
         <title>Catalog of Campers</title>
       </Helmet>
-      <div className={css.filterSection}>
-        <SearchBox
-          onCategoryChange={handleFilterChange}
-          showFavorites={showFavorites}
-          onToggleFavorites={() => setShowFavorites((prev) => !prev)}
-        />
-      </div>
+      <SearchBox onCategoryChange={handleFilterChange} />
 
+      {/* ✅ Відображаємо улюблені кемпери, тільки якщо showFavorites === true */}
       {showFavorites && <FavoritesList />}
 
-      <div className={css.listSection}>
-        <CampersList filters={searchFilters} items={items} />
-        {searchFilters.page < totalPages ? (
-          <LoadMoreBtn onClick={handleLoadMore} />
-        ) : (
-          <LoadMoreBtn onClick={handleBackToStart} />
-        )}
-      </div>
+      <CampersList filters={searchFilters} items={items} />
+      {/* ✅ Додаємо кнопку для перемикання списку улюблених */}
+      <button onClick={() => setShowFavorites((prev) => !prev)}>
+        {showFavorites ? 'Hide Favorites' : 'Show Favorites'}
+      </button>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </div>
   );
 };

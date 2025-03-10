@@ -2,10 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchCamperById } from '../../redux/operations';
-import {
-  selectSelectedCamper,
-  selectStatus,
-} from '../../redux/campers/campers.selectors';
+import { selectStatus } from '../../redux/campers/campers.selectors';
 import css from './FavoritesList.module.css';
 
 const FavoritesList = () => {

@@ -13,15 +13,15 @@ export const fetchCampersFailure = (error) => ({
   payload: error,
 });
 
-export const addFavorite = (camperId) => ({
-  type: 'ADD_FAVORITE',
-  payload: camperId,
-});
+// export const addFavorite = (camperId) => ({
+//   type: 'ADD_FAVORITE',
+//   payload: camperId,
+// });
 
-export const removeFavorite = (camperId) => ({
-  type: 'REMOVE_FAVORITE',
-  payload: camperId,
-});
+// export const removeFavorite = (camperId) => ({
+//   type: 'REMOVE_FAVORITE',
+//   payload: camperId,
+// });
 
 export const setPage = (page) => ({
   type: 'SET_PAGE',
