@@ -43,8 +43,8 @@ export const fetchFiltersData = createAsyncThunk(
   'campers/fetchFiltersData',
   async (_, { rejectWithValue }) => {
     try {
-      console.log('Fetching campers with params:', params);
-      console.log('Fetching URL:', url);
+      // console.log('Fetching campers with params:', params);
+      // console.log('Fetching URL:', url);
 
       const response = await axios.get(BASE_URL);
       const campers = response.data;

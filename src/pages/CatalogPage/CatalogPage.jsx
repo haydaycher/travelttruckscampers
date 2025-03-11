@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCampers } from '../../redux/operations';
 import SearchBox from '../../components/SearchBox/SearchBox.jsx';
 import CampersList from '../../components/CampersList/CampersList';
 import FavoritesList from '../../components/FavoritesList/FavoritesList';
+import LoadMoreBtn from '../../components/LoadMoreBtn/LoadMoreBtn'; // Імпортуємо компонент кнопки Load More
 import css from './CatalogPage.module.css';
 import { Helmet } from 'react-helmet-async';
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,29 +17,21 @@ const CatalogPage = () => {
   );
 
   const [showFavorites, setShowFavorites] = useState(false);
-
   const [searchFilters, setSearchFilters] = useState({
     location: '',
     form: '',
     amenities: [],
-    page: 1,
-    limit: 4,
+    page: 1, // Початкова сторінка
+    limit: 4, // Кількість елементів на сторінку
   });
-
-  const errorHandled = useRef(false);
 
   useEffect(() => {
     dispatch(fetchCampers(searchFilters));
   }, [dispatch, searchFilters]);
 
   useEffect(() => {
-    if (errorHandled.current) return;
-
     if (status === 'failed' && String(error).includes('404')) {
       toast.error('За вашим запитом результатів не знайдено.');
-
-      errorHandled.current = true;
-
       setTimeout(() => {
         setSearchFilters({
           location: '',
@@ -47,7 +40,6 @@ const CatalogPage = () => {
           page: 1,
           limit: 4,
         });
-        errorHandled.current = false;
       }, 1500);
     }
   }, [status, error]);
@@ -56,13 +48,19 @@ const CatalogPage = () => {
     setSearchFilters((prevFilters) => ({
       ...prevFilters,
       ...updatedFilters,
-      page: 1,
+      page: 1, // Скидаємо сторінку на 1 при зміні фільтрів
     }));
-    errorHandled.current = false;
   };
 
   const handleFavoritesToggle = (value) => {
     setShowFavorites(value);
+  };
+
+  const handleLoadMore = () => {
+    setSearchFilters((prevFilters) => ({
+      ...prevFilters,
+      page: prevFilters.page + 1, // Збільшуємо сторінку при натисканні на "Load More"
+    }));
   };
 
   return (
@@ -75,10 +73,21 @@ const CatalogPage = () => {
         onFavoritesToggle={handleFavoritesToggle}
       />
 
-      {/* ✅ Відображаємо улюблені кемпери, тільки якщо showFavorites === true */}
       {showFavorites && <FavoritesList />}
 
-      <CampersList filters={searchFilters} items={items} />
+      <div className={css.listSection}>
+        <CampersList filters={searchFilters} items={items} />
+
+        {/* Кнопка Load More в кінці списку */}
+        {items.length < totalPages * searchFilters.limit && (
+          <div className={css.loadMoreWrapper}>
+            <LoadMoreBtn
+              onClick={handleLoadMore}
+              disabled={status === 'loading'}
+            />
+          </div>
+        )}
+      </div>
 
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </div>

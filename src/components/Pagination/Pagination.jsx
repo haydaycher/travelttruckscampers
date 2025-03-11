@@ -2,20 +2,35 @@ import PropTypes from 'prop-types';
 import css from './Pagination.module.css';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  // const handleLoadMore = () => {
-  //   if (currentPage < totalPages) {
-  //     onPageChange(currentPage + 1);
-  //   }
-  // };
-
   const handlePageClick = (page) => {
     if (page !== currentPage) {
       onPageChange(page);
     }
   };
 
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <div className={css.pagination}>
+      {/* Кнопка "Попередня сторінка" */}
+      <button
+        className={css.pageButton}
+        onClick={handlePrevPage}
+        disabled={currentPage === 1}
+      >
+        Prev
+      </button>
+
       {/* Кнопки для кожної сторінки */}
       {Array.from({ length: totalPages }, (_, index) => (
         <button
@@ -28,16 +43,18 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         </button>
       ))}
 
+      {/* Кнопка "Наступна сторінка" */}
+      <button
+        className={css.pageButton}
+        onClick={handleNextPage}
+        disabled={currentPage === totalPages}
+      >
+        Next
+      </button>
+
       <div className={css.pageInfo}>
         Page {currentPage} of {totalPages}
       </div>
-
-      {/* Кнопка Load More */}
-      {/* {currentPage < totalPages && (
-        <button className={css.pageButton} onClick={handleLoadMore}>
-          Load More
-        </button>
-      )} */}
     </div>
   );
 };
