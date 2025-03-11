@@ -63,6 +63,9 @@ const CatalogPage = () => {
     }));
   };
 
+  // Перевірка, чи є ще сторінки для завантаження
+  const isLoadMoreVisible = searchFilters.page < totalPages;
+
   return (
     <div className={css.catalogContainer}>
       <Helmet>
@@ -79,7 +82,7 @@ const CatalogPage = () => {
         <CampersList filters={searchFilters} items={items} />
 
         {/* Кнопка Load More в кінці списку */}
-        {items.length < totalPages * searchFilters.limit && (
+        {isLoadMoreVisible && (
           <div className={css.loadMoreWrapper}>
             <LoadMoreBtn
               onClick={handleLoadMore}
