@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import css from './SearchBox.module.css';
 import { useDispatch } from 'react-redux';
-import { fetchFiltersData } from '../../redux/operations';
+import { fetchFiltersData, fetchCampers } from '../../redux/operations';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
-import { fetchCampers } from '../../redux/operations';
 
 const validationSchema = Yup.object({
   location: Yup.string().required('Location is required'),
@@ -29,11 +28,10 @@ const vehicleTypeIcons = {
 const SearchBox = ({
   onCategoryChange,
   selectedCategories = [],
-  showFavorites,
-  onToggleFavorites,
+  onFavoritesToggle,
 }) => {
   const dispatch = useDispatch();
-  const [showTips, setShowTips] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
 
   const handleSubmit = (values) => {
     dispatch(fetchFiltersData(values));
@@ -45,6 +43,12 @@ const SearchBox = ({
     location: '',
     amenities: selectedCategories,
     form: '',
+  };
+
+  const toggleFavorites = () => {
+    const newState = !showFavorites;
+    setShowFavorites(newState);
+    onFavoritesToggle(newState); // Notify parent component
   };
 
   return (
@@ -110,7 +114,7 @@ const SearchBox = ({
                         >
                           <use
                             href={`/icons-svg.svg${amenityIcons[category] || ''}`}
-                          />
+                          ></use>
                         </svg>
                         <p>{category}</p>
                       </div>
@@ -143,7 +147,7 @@ const SearchBox = ({
                       >
                         <use
                           href={`/icons-svg.svg${vehicleTypeIcons[vehicleType] || ''}`}
-                        />
+                        ></use>
                       </svg>
                       <p>{vehicleType}</p>
                     </div>
@@ -152,53 +156,31 @@ const SearchBox = ({
               </div>
             </div>
 
-            <button className={css.submitButton} type="submit">
-              Search
-            </button>
+            <div className={css.btnSearchWrap}>
+              <button className={css.submitButton} type="submit">
+                Search
+              </button>
+              {values.form && (
+                <button
+                  className={css.resetBtn}
+                  type="button"
+                  onClick={() => setFieldValue('form', '')}
+                >
+                  Reset
+                </button>
+              )}
+            </div>
           </Form>
         )}
       </Formik>
 
-      {/* Інтерактивна кнопка для підказок */}
-      <button
-        type="button"
-        className={css.tipsToggleButton}
-        onClick={() => setShowTips((prev) => !prev)}
-      >
-        {showTips ? 'Сховати поради' : 'Показати поради'}
-      </button>
-      {showTips && (
-        <div className={css.tipsContainer}>
-          <strong>Поради для пошуку:</strong>
-          <ul>
-            <li>
-              Введіть коректну назву локації (наприклад, "Kyiv" або "Lviv").
-              Якщо назва введена з помилкою, результати можуть бути відсутні.
-            </li>
-            <li>
-              Обирайте лише 1-2 опції обладнання. Якщо вкажете занадто багато,
-              система шукатиме кемпери, що відповідають усім умовам, і це може
-              призвести до відсутності результатів.
-            </li>
-            <li>
-              Виберіть тип транспортного засобу (Van, Fully Integrated, Alcove)
-              для більш точного пошуку.
-            </li>
-            <li>
-              Якщо результати не знайдено, спробуйте скинути фільтри та пошукати
-              ще раз.
-            </li>
-          </ul>
-        </div>
-      )}
-
-      {/* Інтерактивна кнопка для Show Favorites */}
+      {/* Show Favorites Button */}
       <button
         type="button"
         className={css.favoritesToggleButton}
-        onClick={onToggleFavorites}
+        onClick={toggleFavorites}
       >
-        <span>{showFavorites ? 'Hide Favorites' : 'Show Favorites'}</span>
+        <span>Show Favorites</span>
         <svg width="13px" height="10px" viewBox="0 0 13 10">
           <path d="M1,5 L11,5"></path>
           <polyline points="8 1 12 5 8 9"></polyline>

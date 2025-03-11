@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchCamperById } from '../../redux/operations';
@@ -10,6 +10,7 @@ const FavoritesList = () => {
   const favorites = useSelector((state) => state.favs?.favorites || []);
   const campers = useSelector((state) => state.campers.items || []);
   const status = useSelector(selectStatus);
+  const [isOpen, setIsOpen] = useState(true); // Стейт для відкриття/закриття модального вікна
 
   // Фільтруємо улюблені кемпери, які вже є у store
   const favoriteCampers = campers.filter((camper) =>
@@ -25,25 +26,45 @@ const FavoritesList = () => {
     });
   }, [dispatch, favorites, campers]);
 
+  const closeModal = () => {
+    setIsOpen(false); // Закриваємо модальне вікно
+  };
+
+  // Закриваємо модальне вікно при кліку на overlay
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal(); // Закриваємо вікно тільки якщо клік на сам фон
+    }
+  };
+
   return (
-    <div className={css.favoritesList}>
-      {/* <h2 className={css.favListHeader}>Your Favorites:</h2> */}
-      {status === 'loading' ? (
-        <p>Loading favorites...</p>
-      ) : favoriteCampers.length > 0 ? (
-        <ul>
-          {favoriteCampers.map((camper) => (
-            <li key={camper.id}>
-              <Link to={`/catalog/${camper.id}`} className={css.favoriteLink}>
-                {camper.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No favorites added yet.</p>
-      )}
-    </div>
+    isOpen && (
+      <div className={css.modalOverlay} onClick={handleOverlayClick}>
+        <div className={css.favoritesList}>
+          <button className={css.closeButton} onClick={closeModal}>
+            ×
+          </button>
+          {status === 'loading' ? (
+            <p>Loading favorites...</p>
+          ) : favoriteCampers.length > 0 ? (
+            <ul>
+              {favoriteCampers.map((camper) => (
+                <li key={camper.id}>
+                  <Link
+                    to={`/catalog/${camper.id}`}
+                    className={css.favoriteLink}
+                  >
+                    {camper.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No favorites added yet.</p>
+          )}
+        </div>
+      </div>
+    )
   );
 };
 

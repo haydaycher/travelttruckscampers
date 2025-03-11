@@ -15,7 +15,6 @@ const CatalogPage = () => {
     (state) => state.campers,
   );
 
-  // ✅ Додаємо стан для показу улюблених
   const [showFavorites, setShowFavorites] = useState(false);
 
   const [searchFilters, setSearchFilters] = useState({
@@ -62,21 +61,25 @@ const CatalogPage = () => {
     errorHandled.current = false;
   };
 
+  const handleFavoritesToggle = (value) => {
+    setShowFavorites(value);
+  };
+
   return (
     <div className={css.catalogContainer}>
       <Helmet>
         <title>Catalog of Campers</title>
       </Helmet>
-      <SearchBox onCategoryChange={handleFilterChange} />
+      <SearchBox
+        onCategoryChange={handleFilterChange}
+        onFavoritesToggle={handleFavoritesToggle}
+      />
 
       {/* ✅ Відображаємо улюблені кемпери, тільки якщо showFavorites === true */}
       {showFavorites && <FavoritesList />}
 
       <CampersList filters={searchFilters} items={items} />
-      {/* ✅ Додаємо кнопку для перемикання списку улюблених */}
-      <button onClick={() => setShowFavorites((prev) => !prev)}>
-        {showFavorites ? 'Hide Favorites' : 'Show Favorites'}
-      </button>
+
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </div>
   );
