@@ -1,4 +1,3 @@
-// File: src/components/CampersList/CampersList.jsx
 import { useSelector, useDispatch } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../../redux/favs/actions';
 import { Link } from 'react-router-dom';
@@ -16,7 +15,7 @@ const CampersList = ({ items, filters }) => {
     }
   };
 
-  // Відповідність іконок для amenities
+  // Amenity icons mapping
   const amenityIcons = {
     AC: 'icon-wind-blow',
     Automatic: 'icon-scheme',
@@ -32,7 +31,7 @@ const CampersList = ({ items, filters }) => {
     <div className={css.campers_list}>
       <ul>
         {items.map((camper) => {
-          // Формуємо список amenities, які є в кемпері
+          // Forming the amenities list
           const amenities = [];
           if (camper.AC) amenities.push('AC');
           if (camper.automatic) amenities.push('Automatic');
@@ -43,11 +42,15 @@ const CampersList = ({ items, filters }) => {
           if (camper.fullyIntegrated) amenities.push('Fully Integrated');
           if (camper.alcove) amenities.push('Alcove');
 
+          // Fallback for image if gallery is empty
+          const camperImage =
+            camper.gallery?.[0]?.thumb || '/default-image.jpg';
+
           return (
             <li key={camper.id} className={css.campers_item}>
               <img
                 className={css.camper_image}
-                src={camper.gallery[0].thumb}
+                src={camperImage}
                 alt={camper.name}
               />
               <div className={css.camper_info}>

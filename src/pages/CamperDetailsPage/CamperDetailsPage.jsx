@@ -5,22 +5,23 @@ import { fetchCamperById } from '../../redux/operations';
 import Loader from '../../components/Loader/Loader';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { Helmet } from 'react-helmet-async';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 import css from './CamperDetailsPage.module.css';
 
 const CamperDetailsPage = () => {
   const location = useLocation();
-
-  useEffect(() => {
-    if (location.hash === '#reviews') {
-      setActiveTab('reviews'); // відкриваємо вкладку відгуків
-    }
-  }, [location.hash]);
   const { id } = useParams();
   const dispatch = useDispatch();
   const { selectedCamper, status } = useSelector((state) => state.campers);
-
   const [activeTab, setActiveTab] = useState('features');
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Якщо в URL присутній хеш "#reviews", відкриваємо вкладку відгуків
+  useEffect(() => {
+    if (location.hash === '#reviews') {
+      setActiveTab('reviews');
+    }
+  }, [location.hash]);
 
   useEffect(() => {
     if (id) {
@@ -35,22 +36,20 @@ const CamperDetailsPage = () => {
   const camper = selectedCamper;
   const images = camper.gallery || [];
 
-  const handlePrevImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1,
-    );
-  };
-
-  const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1,
-    );
-  };
-
-  const handleBookingSubmit = (event) => {
-    event.preventDefault();
+  // Нова функція бронювання, яка приймає значення форми від Formik
+  const handleBookingSubmit = (values) => {
+    // Можна додати логіку для відправки даних на сервер
     alert('Booking request sent successfully!');
+    console.log('Submitted booking values:', values);
   };
+
+  // Схема валідації з використанням Yup
+  const BookingSchema = Yup.object().shape({
+    name: Yup.string().required('Required'),
+    email: Yup.string().email('Invalid email').required('Required'),
+    date: Yup.date().required('Required'),
+    comment: Yup.string(),
+  });
 
   return (
     <>
@@ -58,32 +57,28 @@ const CamperDetailsPage = () => {
         <title>{camper.name} - Camper Details</title>
       </Helmet>
       <div className={css.details_container}>
-        {/* 📷 Галерея фото */}
-        <div className={css.photo_section}>
-          {images.length > 0 ? (
-            <>
-              <button className={css.prev_btn} onClick={handlePrevImage}>
-                ◀
-              </button>
-              <img
-                src={images[currentImageIndex].thumb}
-                alt={`${camper.name} ${currentImageIndex + 1}`}
-                className={css.detail_photo}
-              />
-              <button className={css.next_btn} onClick={handleNextImage}>
-                ▶
-              </button>
-            </>
-          ) : (
-            <p>No photos available</p>
-          )}
-        </div>
-
         {/* 📌 Основна інформація */}
         <div className={css.basic_info}>
           <h1>{camper.name}</h1>
           <p className={css.price}>Price: €{camper.price}</p>
           <p className={css.location}>Location: {camper.location}</p>
+          {/* 📷 Галерея фото у вигляді сітки */}
+          <div className={css.photo_section}>
+            {images.length > 0 ? (
+              <div className={css.photo_gallery}>
+                {images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image.thumb}
+                    alt={`${camper.name} ${index + 1}`}
+                    className={css.gallery_photo}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p>No photos available</p>
+            )}
+          </div>
           <p className={css.description}>{camper.description}</p>
         </div>
 
@@ -121,16 +116,16 @@ const CamperDetailsPage = () => {
                 {camper.water && <li>Water</li>}
               </ul>
 
-              {/* 🚐 Vehicle Details */}
+              {/* 🚐 Деталі транспортного засобу */}
               <h3>Vehicle Details</h3>
               <ul className={css.vehicle_details}>
-                {camper.form && <li>Type: {camper.form}</li>}
-                {camper.length && <li>Length: {camper.length}</li>}
+                {camper.form && <li>Form {camper.form}</li>}
+                {camper.length && <li>Length {camper.length}</li>}
                 {camper.width && <li>Width: {camper.width}</li>}
-                {camper.height && <li>Height: {camper.height}</li>}
-                {camper.tank && <li>Tank: {camper.tank}</li>}
+                {camper.height && <li>Height {camper.height}</li>}
+                {camper.tank && <li>Tank {camper.tank}</li>}
                 {camper.consumption && (
-                  <li>Consumption: {camper.consumption}</li>
+                  <li>Consumption {camper.consumption}</li>
                 )}
               </ul>
             </>
@@ -139,7 +134,7 @@ const CamperDetailsPage = () => {
               {camper.reviews && camper.reviews.length > 0 ? (
                 camper.reviews.map((review, index) => (
                   <div key={index} className={css.review}>
-                    {/* 🟢 Користувач */}
+                    {/* 🟢 Інформація про рецензента */}
                     <div className={css.reviewer_info}>
                       <div className={css.reviewer_icon}>
                         {review.reviewer_name.charAt(0).toUpperCase()}
@@ -182,32 +177,68 @@ const CamperDetailsPage = () => {
           )}
         </div>
 
-        {/* 🛒 Форма бронювання */}
+        {/* 🛒 Форма бронювання через Formik */}
         <div className={css.booking}>
-          <h2>Book your campervan now</h2>
-          <p>Stay connected! We are always ready to help you.</p>
-          <form className={css.booking_form} onSubmit={handleBookingSubmit}>
-            <label>
-              Name*:
-              <input type="text" name="name" required />
-            </label>
-            <label>
-              Email*:
-              <input type="email" name="email" required />
-            </label>
-            <label>
-              Booking date*:
-              <input type="date" name="date" required />
-            </label>
-            <label>
-              Comment:
-              <input type="text" name="comment" />
-            </label>
-
-            <button className={css.send_btn} type="submit">
-              Send
-            </button>
-          </form>
+          <h2 className={css.booking_header}>Book your campervan now</h2>
+          <p className={css.booking_paragraf}>
+            Stay connected! We are always ready to help you.
+          </p>
+          <Formik
+            initialValues={{
+              name: '',
+              email: '',
+              date: '',
+              comment: '',
+            }}
+            validationSchema={BookingSchema}
+            onSubmit={(values, { setSubmitting, resetForm }) => {
+              handleBookingSubmit(values);
+              setSubmitting(false);
+              resetForm();
+            }}
+          >
+            {({ isSubmitting }) => (
+              <Form className={css.booking_form}>
+                <Field type="text" name="name" placeholder="Name*" required />
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Email*"
+                  required
+                />
+                {/* Використовуємо render props для date-поля */}
+                <div className={css.dateInputWrapper}>
+                  <Field name="date">
+                    {({ field }) => (
+                      <>
+                        <input
+                          type="date"
+                          {...field}
+                          id="date"
+                          className={css.dateInput}
+                          required
+                        />
+                        {/* Якщо поле порожнє – показуємо псевдо-placeholder */}
+                        {!field.value && (
+                          <label htmlFor="date" className={css.datePlaceholder}>
+                            Booking Date*
+                          </label>
+                        )}
+                      </>
+                    )}
+                  </Field>
+                </div>
+                <Field type="text" name="comment" placeholder="Comment" />
+                <button
+                  className={css.send_btn}
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Send
+                </button>
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
     </>

@@ -6,17 +6,27 @@ import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object({
-  location: Yup.string().required('Location is required'),
+  location: Yup.string(), // робимо необов’язковим, щоб шукати без локації
   amenities: Yup.array().of(Yup.string()),
   form: Yup.string(),
+  rating: Yup.number()
+    .min(0, 'Рейтинг не може бути менше 0')
+    .max(5, 'Рейтинг не може бути більше 5')
+    .nullable(),
+  engine: Yup.string(),
+  transmission: Yup.string(),
 });
 
 const amenityIcons = {
   AC: '#icon-wind-blow',
-  Automatic: '#icon-scheme',
   Kitchen: '#icon-tea',
-  TV: '#icon-comp',
   Bathroom: '#icon-shower',
+  TV: '#icon-comp',
+  Radio: '#icon-radio',
+  Refrigerator: '#icon-frige',
+  Microwave: '#icon-microwave',
+  Gas: '#icon-gas',
+  Water: '#icon-water-drp',
 };
 
 const vehicleTypeIcons = {
@@ -34,22 +44,43 @@ const SearchBox = ({
   const [showFavorites, setShowFavorites] = useState(false);
 
   const handleSubmit = (values) => {
-    dispatch(fetchFiltersData(values));
-    dispatch(fetchCampers(values));
-    onCategoryChange(values);
+    const searchParams = {
+      ...values,
+      location: values.location.trim() || undefined,
+    };
+
+    dispatch(fetchFiltersData(searchParams));
+    dispatch(fetchCampers(searchParams));
+    onCategoryChange(searchParams);
   };
 
   const initialValues = {
     location: '',
     amenities: selectedCategories,
     form: '',
+    rating: '',
+    engine: '',
+    transmission: '',
   };
 
   const toggleFavorites = () => {
     const newState = !showFavorites;
     setShowFavorites(newState);
-    onFavoritesToggle(newState); // Notify parent component
+    onFavoritesToggle(newState);
   };
+
+  // Розширений список обладнання
+  const amenitiesList = [
+    'AC',
+    'Kitchen',
+    'Bathroom',
+    'TV',
+    'Radio',
+    'Refrigerator',
+    'Microwave',
+    'Gas',
+    'Water',
+  ];
 
   return (
     <div className={css.wrapperSearch}>
@@ -84,47 +115,44 @@ const SearchBox = ({
 
             <div className={css.filters}>
               <h3 className={css.filtersTitle}>Filters</h3>
+
+              {/* Фільтр за обладнанням */}
               <h4 className={css.filtersCategory}>Vehicle equipment</h4>
               <div className={css.filterOptions}>
-                {['AC', 'Automatic', 'Kitchen', 'TV', 'Bathroom'].map(
-                  (category) => (
-                    <label key={category} className={css.checkboxWrapper}>
-                      <Field
-                        type="checkbox"
-                        name="amenities"
-                        value={category}
-                        checked={values.amenities.includes(category)}
-                        onChange={() => {
-                          const nextValue = values.amenities.includes(category)
-                            ? values.amenities.filter(
-                                (item) => item !== category,
-                              )
-                            : [...values.amenities, category];
-                          setFieldValue('amenities', nextValue);
-                        }}
-                      />
-                      <div className={css.iconWrapper}>
-                        <svg
-                          className={css.icon}
-                          aria-hidden="true"
-                          focusable="false"
-                          role="img"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                        >
-                          <use
-                            href={`/icons-svg.svg${amenityIcons[category] || ''}`}
-                          ></use>
-                        </svg>
-                        <p>{category}</p>
-                      </div>
-                    </label>
-                  ),
-                )}
+                {amenitiesList.map((category) => (
+                  <label key={category} className={css.checkboxWrapper}>
+                    <Field
+                      type="checkbox"
+                      name="amenities"
+                      value={category}
+                      checked={values.amenities.includes(category)}
+                      onChange={() => {
+                        const nextValue = values.amenities.includes(category)
+                          ? values.amenities.filter((item) => item !== category)
+                          : [...values.amenities, category];
+                        setFieldValue('amenities', nextValue);
+                      }}
+                    />
+                    <div className={css.iconWrapper}>
+                      <svg
+                        className={css.icon}
+                        aria-hidden="true"
+                        focusable="false"
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <use
+                          href={`/icons-svg.svg${amenityIcons[category] || ''}`}
+                        ></use>
+                      </svg>
+                      <p>{category}</p>
+                    </div>
+                  </label>
+                ))}
               </div>
-            </div>
 
-            <div className={css.filters}>
+              {/* Фільтр за типом транспортного засобу */}
               <h4 className={css.filtersCategory}>Vehicle type</h4>
               <div className={css.filterOptions}>
                 {['Van', 'Fully Integrated', 'Alcove'].map((vehicleType) => (
@@ -144,6 +172,8 @@ const SearchBox = ({
                         role="img"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
                       >
                         <use
                           href={`/icons-svg.svg${vehicleTypeIcons[vehicleType] || ''}`}
@@ -154,27 +184,70 @@ const SearchBox = ({
                   </label>
                 ))}
               </div>
-            </div>
+              {/* Фільтр за мінімальним рейтингом */}
+              <h4 className={css.filtersCategory}>Minimum Rating</h4>
+              <div className={css.filterOptions}>
+                <Field
+                  type="number"
+                  name="rating"
+                  step="0.1"
+                  min="0"
+                  max="5"
+                  placeholder="Наприклад, 4.0"
+                />
+              </div>
 
-            <div className={css.btnSearchWrap}>
-              <button className={css.submitButton} type="submit">
-                Search
-              </button>
-              {values.form && (
-                <button
-                  className={css.resetBtn}
-                  type="button"
-                  onClick={() => setFieldValue('form', '')}
-                >
-                  Reset
+              {/* Фільтр за типом двигуна */}
+              <h4 className={css.filtersCategory}>Engine Type</h4>
+              <div className={css.filterOptions}>
+                <Field as="select" name="engine">
+                  <option value="">Всі</option>
+                  <option value="petrol">Petrol</option>
+                  <option value="diesel">Diesel</option>
+                  <option value="electric">Electric</option>
+                  <option value="hybrid">Hybrid</option>
+                </Field>
+              </div>
+
+              {/* Фільтр за трансмісією */}
+              <h4 className={css.filtersCategory}>Transmission</h4>
+              <div className={css.filterOptions}>
+                <Field as="select" name="transmission">
+                  <option value="">Всі</option>
+                  <option value="manual">Manual</option>
+                  <option value="automatic">Automatic</option>
+                </Field>
+              </div>
+
+              <div className={css.btnSearchWrap}>
+                <button className={css.submitButton} type="submit">
+                  Search
                 </button>
-              )}
+                {(values.form ||
+                  values.amenities.length > 0 ||
+                  values.rating ||
+                  values.engine ||
+                  values.transmission) && (
+                  <button
+                    className={css.resetBtn}
+                    type="button"
+                    onClick={() => {
+                      setFieldValue('amenities', []);
+                      setFieldValue('form', '');
+                      setFieldValue('rating', '');
+                      setFieldValue('engine', '');
+                      setFieldValue('transmission', '');
+                    }}
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
             </div>
           </Form>
         )}
       </Formik>
 
-      {/* Show Favorites Button */}
       <button
         type="button"
         className={css.favoritesToggleButton}

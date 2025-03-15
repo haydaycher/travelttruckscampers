@@ -8,10 +8,22 @@ export const fetchCampers = createAsyncThunk(
   'campers/fetchAll',
   async (params = {}, { rejectWithValue }) => {
     try {
-      const { location, form, amenities = [], page = 1, limit = 10 } = params;
+      const {
+        location,
+        form,
+        amenities = [],
+        rating,
+        engine,
+        transmission,
+        page = 1,
+        limit = 10,
+      } = params;
       let url = `${BASE_URL}?page=${page}&limit=${limit}`;
 
-      if (location) url += `&location=${encodeURIComponent(location)}`;
+      if (location && location.trim() !== '') {
+        url += `&location=${encodeURIComponent(location)}`;
+      }
+
       if (form && typeof form === 'string')
         url += `&form=${encodeURIComponent(form.toLowerCase())}`;
 
@@ -23,6 +35,20 @@ export const fetchCampers = createAsyncThunk(
               : amenity.toLowerCase();
           url += `&${param}=true`;
         });
+      }
+
+      if (rating && !isNaN(rating)) {
+        url += `&rating_gte=${rating}`;
+      }
+
+      if (engine && engine.trim() !== '') {
+        url += `&engine=${encodeURIComponent(engine.toLowerCase())}`;
+      }
+
+      if (transmission && transmission.trim() !== '') {
+        url += `&transmission=${encodeURIComponent(
+          transmission.toLowerCase(),
+        )}`;
       }
 
       console.log('Fetching URL:', url);

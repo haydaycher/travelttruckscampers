@@ -174,27 +174,30 @@ input[type='radio'] {
   font-size: 16px;
   line-height: 150%;
   color: var(--text);
-  margin-bottom: 32px;
 }
 
 .filtersCategory {
-  font-family: var(--font-family);
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 120%;
-  color: var(--main);
   position: relative;
   display: inline-block;
-  z-index: 1;
+  padding-bottom: 8px; /* Відступ перед рискою */
+  width: 100%;
+  margin-top: 32px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #101828;
 }
 
 .filtersCategory::after {
   content: '';
-  position: absolute;
-  left: 0;
-  bottom: -24px;
+  display: block;
+  width: 100%;
   height: 1px;
-  background-color: var(--gray-light);
+  background-color: #dadde1;
+  position: absolute;
+  bottom: -24px; /* Відступ під текстом */
+  left: 0;
 }
 
 .submitButton {
@@ -384,8 +387,12 @@ input[type='radio'] {
 
 .resetBtn:hover,
 .resetBtn:focus {
-  border-color: var(--button-hover);
-  text-decoration: none;
+  border: 1px solid var(--gray-dark);
+  background-color: var(--background-dark);
+  transform: scale(1.05);
+}
+.resetBtn:active {
+  transform: scale(0.98);
 }
 
 .btnSearchWrap {
