@@ -188,6 +188,29 @@ input[type='radio'] {
   line-height: 1.2;
   color: #101828;
 }
+.filtersCategoryAdditional {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px; /* Відступ перед рискою */
+  width: 100%;
+  margin-top: 32px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #101828;
+}
+
+.filtersCategoryAdditional::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #dadde1;
+  position: absolute;
+  bottom: -10px; /* Відступ під текстом */
+  left: 0;
+}
 
 .filtersCategory::after {
   content: '';
@@ -196,7 +219,7 @@ input[type='radio'] {
   height: 1px;
   background-color: #dadde1;
   position: absolute;
-  bottom: -24px; /* Відступ під текстом */
+  bottom: -15px; /* Відступ під текстом */
   left: 0;
 }
 

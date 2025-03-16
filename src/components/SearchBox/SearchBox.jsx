@@ -184,21 +184,9 @@ const SearchBox = ({
                   </label>
                 ))}
               </div>
-              {/* Фільтр за мінімальним рейтингом */}
-              <h4 className={css.filtersCategory}>Minimum Rating</h4>
-              <div className={css.filterOptions}>
-                <Field
-                  type="number"
-                  name="rating"
-                  step="0.1"
-                  min="0"
-                  max="5"
-                  placeholder="Наприклад, 4.0"
-                />
-              </div>
 
               {/* Фільтр за типом двигуна */}
-              <h4 className={css.filtersCategory}>Engine Type</h4>
+              <h4 className={css.filtersCategoryAdditional}>Engine Type</h4>
               <div className={css.filterOptions}>
                 <Field as="select" name="engine">
                   <option value="">Всі</option>
