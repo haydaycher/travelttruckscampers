@@ -24,15 +24,28 @@ const amenityIcons = {
   TV: '#icon-comp',
   Radio: '#icon-radio',
   Refrigerator: '#icon-frige',
-  Microwave: '#icon-microwave',
+  Microwave: '#lucide--microwave',
   Gas: '#icon-gas',
-  Water: '#icon-water-drp',
+  Water: '#icon-water',
 };
 
 const vehicleTypeIcons = {
   Van: '#icon-three-squares',
   'Fully Integrated': '#icon-four-squares',
   Alcove: '#icon-nine-squares',
+};
+// Іконки для типу двигуна
+const engineTypeIcons = {
+  petrol: '#bi--fuel-pump',
+  diesel: '#bi--fuel-pump-diesel',
+  electric: '#material-symbols--electric-car-outline',
+  hybrid: '#carbon--hybrid-networking',
+};
+
+// Іконки для трансмісії
+const transmissionIcons = {
+  manual: '#icon-park-outline--manual-gear',
+  automatic: '#icon-scheme',
 };
 
 const SearchBox = ({
@@ -115,7 +128,6 @@ const SearchBox = ({
 
             <div className={css.filters}>
               <h3 className={css.filtersTitle}>Filters</h3>
-
               {/* Фільтр за обладнанням */}
               <h4 className={css.filtersCategory}>Vehicle equipment</h4>
               <div className={css.filterOptions}>
@@ -151,7 +163,6 @@ const SearchBox = ({
                   </label>
                 ))}
               </div>
-
               {/* Фільтр за типом транспортного засобу */}
               <h4 className={css.filtersCategory}>Vehicle type</h4>
               <div className={css.filterOptions}>
@@ -184,29 +195,68 @@ const SearchBox = ({
                   </label>
                 ))}
               </div>
-
-              {/* Фільтр за типом двигуна */}
-              <h4 className={css.filtersCategoryAdditional}>Engine Type</h4>
+              {/* // Фільтр за типом двигуна */}
+              <h4 className={css.filtersCategory}>Engine Type</h4>
               <div className={css.filterOptions}>
-                <Field as="select" name="engine">
-                  <option value="">Всі</option>
-                  <option value="petrol">Petrol</option>
-                  <option value="diesel">Diesel</option>
-                  <option value="electric">Electric</option>
-                  <option value="hybrid">Hybrid</option>
-                </Field>
+                {Object.keys(engineTypeIcons).map((engineType) => (
+                  <label key={engineType} className={css.checkboxWrapper}>
+                    <Field
+                      type="radio"
+                      name="engine"
+                      value={engineType}
+                      checked={values.engine === engineType}
+                      onChange={() => setFieldValue('engine', engineType)}
+                    />
+                    <div className={css.iconWrapper}>
+                      <svg
+                        className={css.icon}
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <use
+                          href={`/icons-svg.svg${engineTypeIcons[engineType]}`}
+                        ></use>
+                      </svg>
+                      <p>
+                        {engineType.charAt(0).toUpperCase() +
+                          engineType.slice(1)}
+                      </p>
+                    </div>
+                  </label>
+                ))}
               </div>
-
-              {/* Фільтр за трансмісією */}
+              {/* // Фільтр за трансмісією */}
               <h4 className={css.filtersCategory}>Transmission</h4>
               <div className={css.filterOptions}>
-                <Field as="select" name="transmission">
-                  <option value="">Всі</option>
-                  <option value="manual">Manual</option>
-                  <option value="automatic">Automatic</option>
-                </Field>
+                {Object.keys(transmissionIcons).map((transmissionType) => (
+                  <label key={transmissionType} className={css.checkboxWrapper}>
+                    <Field
+                      type="radio"
+                      name="transmission"
+                      value={transmissionType}
+                      checked={values.transmission === transmissionType}
+                      onChange={() =>
+                        setFieldValue('transmission', transmissionType)
+                      }
+                    />
+                    <div className={css.iconWrapper}>
+                      <svg
+                        className={css.icon}
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <use
+                          href={`/icons-svg.svg${transmissionIcons[transmissionType]}`}
+                        ></use>
+                      </svg>
+                      <p>
+                        {transmissionType.charAt(0).toUpperCase() +
+                          transmissionType.slice(1)}
+                      </p>
+                    </div>
+                  </label>
+                ))}
               </div>
-
               <div className={css.btnSearchWrap}>
                 <button className={css.submitButton} type="submit">
                   Search

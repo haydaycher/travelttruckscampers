@@ -4,7 +4,6 @@
   gap: 20px;
   padding: 20px;
   max-width: 1312px;
-  height: auto;
   margin: 0 auto;
 }
 
@@ -14,14 +13,20 @@
   gap: 16px;
 }
 
+.contentSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .listSection {
   max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  flex-grow: 1; /* Ensures the list takes up available space */
-  justify-content: flex-start; /* Ensures the list is aligned at the top */
+  flex-grow: 1;
+  justify-content: flex-start;
 }
 
 .errorMessage {
@@ -85,7 +90,9 @@
 }
 
 .loadMoreWrapper {
+  flex-basis: 100%;
+  text-align: center;
   display: flex;
   justify-content: center;
-  margin-top: 20px; /* Adds space above the Load More button */
+  margin-top: 20px;
 }

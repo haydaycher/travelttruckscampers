@@ -4,7 +4,7 @@ import { fetchCampers } from '../../redux/operations';
 import SearchBox from '../../components/SearchBox/SearchBox.jsx';
 import CampersList from '../../components/CampersList/CampersList';
 import FavoritesList from '../../components/FavoritesList/FavoritesList';
-import LoadMoreBtn from '../../components/LoadMoreBtn/LoadMoreBtn'; // Імпортуємо компонент кнопки Load More
+import LoadMoreBtn from '../../components/LoadMoreBtn/LoadMoreBtn';
 import css from './CatalogPage.module.css';
 import { Helmet } from 'react-helmet-async';
 import { ToastContainer, toast } from 'react-toastify';
@@ -59,11 +59,11 @@ const CatalogPage = () => {
   const handleLoadMore = () => {
     setSearchFilters((prevFilters) => ({
       ...prevFilters,
-      page: prevFilters.page + 1, // Збільшуємо сторінку при натисканні на "Load More"
+      page: prevFilters.page + 1,
     }));
   };
 
-  // Перевірка, чи є ще сторінки для завантаження
+  // Кнопка відображається, якщо є ще сторінки для завантаження
   const isLoadMoreVisible = searchFilters.page < totalPages;
 
   return (
@@ -71,17 +71,17 @@ const CatalogPage = () => {
       <Helmet>
         <title>Catalog of Campers</title>
       </Helmet>
-      <SearchBox
-        onCategoryChange={handleFilterChange}
-        onFavoritesToggle={handleFavoritesToggle}
-      />
-
-      {showFavorites && <FavoritesList />}
-
-      <div className={css.listSection}>
-        <CampersList filters={searchFilters} items={items} />
-
-        {/* Кнопка Load More в кінці списку */}
+      <div className={css.filterSection}>
+        <SearchBox
+          onCategoryChange={handleFilterChange}
+          onFavoritesToggle={handleFavoritesToggle}
+        />
+        {showFavorites && <FavoritesList />}
+      </div>
+      <div className={css.contentSection}>
+        <div className={css.listSection}>
+          <CampersList filters={searchFilters} items={items} />
+        </div>
         {isLoadMoreVisible && (
           <div className={css.loadMoreWrapper}>
             <LoadMoreBtn
@@ -91,7 +91,6 @@ const CatalogPage = () => {
           </div>
         )}
       </div>
-
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </div>
   );

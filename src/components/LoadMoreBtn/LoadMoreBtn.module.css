@@ -21,7 +21,7 @@
 }
 
 .buttonLoadMore:hover {
-  border: 1px solid var(--gray-dark);
+  border: 1px solid #d84343;
   background-color: var(--background-dark);
   transform: scale(1.05);
 }
