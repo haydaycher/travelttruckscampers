@@ -16,7 +16,7 @@ export const fetchCampers = createAsyncThunk(
         engine,
         transmission,
         page = 1,
-        limit = 10,
+        limit = 4,
       } = params;
       let url = `${BASE_URL}?page=${page}&limit=${limit}`;
 

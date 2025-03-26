@@ -1,10 +1,4 @@
 // File: src/redux/campers/campers.selectors.js
-// import { createSelector } from '@reduxjs/toolkit';
-
-// export const selectCampers = createSelector(
-//   (state) => state.campers.items,
-//   (items) => items,
-// );
 
 export const selectCampers = (state) => state.campers.items || [];
 

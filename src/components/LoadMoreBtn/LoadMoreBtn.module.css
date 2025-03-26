@@ -1,5 +1,6 @@
 .buttonLoadMore {
-  display: flex;
+  display: block;
+  margin: 20px auto;
   align-items: center;
   justify-content: center;
   flex-direction: row;

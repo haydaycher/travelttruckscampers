@@ -21,16 +21,17 @@ const CatalogPage = () => {
     location: '',
     form: '',
     amenities: [],
-    page: 1, // Початкова сторінка
-    limit: 4, // Кількість елементів на сторінку
+    page: 1,
+    limit: 4, // завжди 4 елементи на сторінку
   });
 
+  // Завантажуємо кемперів щоразу, коли змінюється searchFilters
   useEffect(() => {
     dispatch(fetchCampers(searchFilters));
   }, [dispatch, searchFilters]);
 
   useEffect(() => {
-    if (status === 'failed' && String(error).includes('404')) {
+    if (status === 'failed' && error && String(error).includes('404')) {
       toast.error('За вашим запитом результатів не знайдено.');
       setTimeout(() => {
         setSearchFilters({
@@ -45,10 +46,11 @@ const CatalogPage = () => {
   }, [status, error]);
 
   const handleFilterChange = (updatedFilters) => {
-    setSearchFilters((prevFilters) => ({
-      ...prevFilters,
+    // При зміні фільтрів повертаємося до першої сторінки
+    setSearchFilters((prev) => ({
+      ...prev,
       ...updatedFilters,
-      page: 1, // Скидаємо сторінку на 1 при зміні фільтрів
+      page: 1,
     }));
   };
 
@@ -57,13 +59,24 @@ const CatalogPage = () => {
   };
 
   const handleLoadMore = () => {
-    setSearchFilters((prevFilters) => ({
-      ...prevFilters,
-      page: prevFilters.page + 1,
+    // Завантажуємо наступну сторінку, замінюючи попередні 4 кемпери
+    setSearchFilters((prev) => ({
+      ...prev,
+      page: prev.page + 1,
     }));
   };
 
-  // Кнопка відображається, якщо є ще сторінки для завантаження
+  const handleBack = () => {
+    // Повертаємося на попередню сторінку
+    setSearchFilters((prev) => ({
+      ...prev,
+      page: prev.page - 1,
+    }));
+  };
+
+  // Якщо ми не на першій сторінці, показуємо кнопку Back
+  const isBackVisible = searchFilters.page > 1;
+  // Якщо є наступна сторінка, показуємо кнопку Load More
   const isLoadMoreVisible = searchFilters.page < totalPages;
 
   return (
@@ -79,17 +92,20 @@ const CatalogPage = () => {
         {showFavorites && <FavoritesList />}
       </div>
       <div className={css.contentSection}>
-        <div className={css.listSection}>
-          <CampersList filters={searchFilters} items={items} />
-        </div>
-        {isLoadMoreVisible && (
-          <div className={css.loadMoreWrapper}>
+        <CampersList filters={searchFilters} items={items} />
+        <div className={css.paginationButtons}>
+          {isBackVisible && (
+            <button type="button" onClick={handleBack} className={css.backBtn}>
+              Back
+            </button>
+          )}
+          {isLoadMoreVisible && (
             <LoadMoreBtn
               onClick={handleLoadMore}
               disabled={status === 'loading'}
             />
-          </div>
-        )}
+          )}
+        </div>
       </div>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </div>

@@ -14,15 +14,25 @@ const initialState = {
 const campersSlice = createSlice({
   name: 'campers',
   initialState,
+  reducers: {
+    clear: (state) => {
+      state.items = []; // Очищення списку
+    },
+  },
   extraReducers: (builder) => {
     builder
+      .addCase('campers/clear', (state) => {
+        state.items = [];
+      })
       .addCase(fetchCampers.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.notFound = false;
-        state.items = [...action.payload.items]; // Завжди оновлюємо `items`
+        // Якщо це запит на першу сторінку – переписуємо items,
+        // інакше можна додавати (якщо потрібно робити "load more")
+        state.items = action.payload.items;
+
         state.totalPages = action.payload.totalPages;
       })
-
       .addCase(fetchCamperById.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.notFound = false;
@@ -44,7 +54,6 @@ const campersSlice = createSlice({
         (state, action) => {
           state.status = 'failed';
           state.error = action.payload;
-          // Якщо це помилка від fetchCampers та містить '404'
           if (
             action.type === fetchCampers.rejected.toString() &&
             action.payload &&
@@ -57,4 +66,5 @@ const campersSlice = createSlice({
   },
 });
 
+export const { clear } = campersSlice.actions;
 export default campersSlice.reducer;
