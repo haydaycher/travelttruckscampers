@@ -17,14 +17,12 @@
   box-sizing: border-box;
   position: relative;
 
-  
-  background-image: url("../../assets/images/homepage-1x-desk.jpg");
+  background-image: url('../../assets/images/homepage-1x-desk.jpg');
 }
-
 
 @media (min-width: 1024px) and (min-resolution: 2dppx) {
   .home_container {
-    background-image: url("../../assets/images/homepage-2x-desk.jpg");
+    background-image: url('../../assets/images/homepage-2x-desk.jpg');
   }
 }
 

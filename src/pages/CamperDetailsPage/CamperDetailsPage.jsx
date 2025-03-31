@@ -65,41 +65,44 @@ const CamperDetailsPage = () => {
           {/* <p className={css.camperLocation}>{camper.location}</p> */}
 
           <div className={css.camper_rate_location}>
-            <p className={css.rating}>
-              <Link
-                to={`/catalog/${camper.id}#reviews`}
-                className={css.rating_link}
-              >
-                <svg
-                  width="16"
-                  height="15"
-                  viewBox="0 0 16 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+            <div className={css.rating_location_container}>
+              <p className={css.rating}>
+                <Link
+                  to={`/catalog/${camper.id}#reviews`}
+                  className={css.rating_link}
                 >
-                  <use
-                    href={`/icons-svg.svg#${camper.rating < 3 ? 'icon-star' : 'icon-star-gold'}`}
-                  />
+                  <svg
+                    width="16"
+                    height="15"
+                    viewBox="0 0 16 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <use
+                      href={`/icons-svg.svg#${camper.rating < 3 ? 'icon-star' : 'icon-star-gold'}`}
+                    />
+                  </svg>
+                  <span className={css.rating_text}>
+                    {camper.rating} (
+                    {camper.reviews ? camper.reviews.length : 0} Reviews)
+                  </span>
+                </Link>
+              </p>
+              <p className={css.location}>
+                <svg
+                  className={css.icon}
+                  aria-hidden="true"
+                  focusable="false"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                >
+                  <use href="/icons-svg.svg#icon-map" />
                 </svg>
-                <span className={css.rating_text}>
-                  {camper.rating} ({camper.reviews ? camper.reviews.length : 0}{' '}
-                  Reviews)
-                </span>
-              </Link>
-            </p>
-            <p className={css.location}>
-              <svg
-                className={css.icon}
-                aria-hidden="true"
-                focusable="false"
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-              >
-                <use href="/icons-svg.svg#icon-map" />
-              </svg>
-              {camper.location}
-            </p>
+                {camper.location}
+              </p>
+            </div>
+
             <p className={css.camperPrice}>€{camper.price}</p>
           </div>
 
@@ -144,24 +147,77 @@ const CamperDetailsPage = () => {
               <>
                 <ul className={css.features_list}>
                   {camper.AC && (
-                    <li className={css.feature_item}>Air Conditioning</li>
+                    <li className={css.features_item}>
+                      <svg className={css.features_icon} aria-hidden="true">
+                        <use href={`/icons-svg.svg#icon-wind-blow`} />
+                      </svg>
+                      AC
+                    </li>
                   )}
                   {camper.kitchen && (
-                    <li className={css.feature_item}>Kitchen</li>
+                    <li className={css.features_item}>
+                      <svg className={css.features_icon} aria-hidden="true">
+                        <use href={`/icons-svg.svg#icon-tea`} />
+                      </svg>
+                      Kitchen
+                    </li>
                   )}
                   {camper.bathroom && (
-                    <li className={css.feature_item}>Bathroom</li>
+                    <li className={css.features_item}>
+                      <svg className={css.features_icon} aria-hidden="true">
+                        <use href={`/icons-svg.svg#icon-shower`} />
+                      </svg>
+                      Bathroom
+                    </li>
                   )}
-                  {camper.TV && <li className={css.feature_item}>TV</li>}
-                  {camper.radio && <li className={css.feature_item}>Radio</li>}
+                  {camper.TV && (
+                    <li className={css.features_item}>
+                      <svg className={css.features_icon} aria-hidden="true">
+                        <use href={`/icons-svg.svg#icon-comp`} />
+                      </svg>
+                      TV
+                    </li>
+                  )}
+                  {camper.radio && (
+                    <li className={css.features_item}>
+                      <svg className={css.features_icon} aria-hidden="true">
+                        <use href={`/icons-svg.svg#icon-radio`} />
+                      </svg>
+                      Radio
+                    </li>
+                  )}
                   {camper.refrigerator && (
-                    <li className={css.feature_item}>Refrigerator</li>
+                    <li className={css.features_item}>
+                      <svg className={css.features_icon} aria-hidden="true">
+                        <use href={`/icons-svg.svg#icon-frige`} />
+                      </svg>
+                      Refrigerator
+                    </li>
                   )}
                   {camper.microwave && (
-                    <li className={css.feature_item}>Microwave</li>
+                    <li className={css.features_item}>
+                      <svg className={css.features_icon} aria-hidden="true">
+                        <use href={`/icons-svg.svg#lucide--microwave`} />
+                      </svg>
+                      Microwave
+                    </li>
                   )}
-                  {camper.gas && <li className={css.feature_item}>Gas</li>}
-                  {camper.water && <li className={css.feature_item}>Water</li>}
+                  {camper.gas && (
+                    <li className={css.features_item}>
+                      <svg className={css.features_icon} aria-hidden="true">
+                        <use href={`/icons-svg.svg#icon-gas`} />
+                      </svg>
+                      Gas
+                    </li>
+                  )}
+                  {camper.water && (
+                    <li className={css.features_item}>
+                      <svg className={css.features_icon} aria-hidden="true">
+                        <use href={`/icons-svg.svg#icon-water`} />
+                      </svg>
+                      Water
+                    </li>
+                  )}
                 </ul>
 
                 <h3 className={css.vehicle_header}>Vehicle Details</h3>
@@ -298,6 +354,7 @@ const CamperDetailsPage = () => {
                         }) => (
                           <div className={css.header}>
                             <button
+                              type="button"
                               onClick={decreaseMonth}
                               disabled={prevMonthButtonDisabled}
                               className={css.navButton}
@@ -324,6 +381,7 @@ const CamperDetailsPage = () => {
                             </span>
 
                             <button
+                              type="button"
                               onClick={increaseMonth}
                               disabled={nextMonthButtonDisabled}
                               className={css.navButton}

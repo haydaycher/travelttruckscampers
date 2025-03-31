@@ -156,6 +156,14 @@ input[type='radio'] {
   width: 100%;
   height: 100%;
 }
+.checkboxWrapper input[type='checkbox']:checked + .iconWrapper svg,
+.checkboxWrapper input[type='radio']:checked + .iconWrapper svg {
+  fill: white; /* або будь-який інший потрібний колір */
+}
+.checkboxWrapper input[type='checkbox']:checked + .iconWrapper use,
+.checkboxWrapper input[type='radio']:checked + .iconWrapper use {
+  fill: white;
+}
 
 .checkboxWrapper input[type='checkbox']:checked + .iconWrapper:hover,
 .checkboxWrapper input[type='radio']:checked + .iconWrapper:hover {
