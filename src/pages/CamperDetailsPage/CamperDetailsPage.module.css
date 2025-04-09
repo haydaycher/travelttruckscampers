@@ -199,12 +199,12 @@
 }
 
 .features_list {
-  list-style: none;
+    list-style: none;
   padding: 0;
-
   display: flex;
-  grid-template-columns: repeat(2, auto);
-  gap: 8px;
+  flex-wrap: wrap; /* перенос рядків при нестачі місця */
+  gap: 8px; /* відстань між елементами */
+  overflow: visible; 
 }
 .features_item {
   display: flex;
