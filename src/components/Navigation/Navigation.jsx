@@ -9,9 +9,6 @@ const generateNavLinkClass = ({ isActive }) => {
 export default function Navigation() {
   return (
     <nav className={css.nav_container}>
-      {/* <NavLink to="/" className={css.logo}>
-        <Logo />
-      </NavLink> */}
       <ul className={css.nav_list}>
         <li>
           <NavLink to="/" className={generateNavLinkClass}>

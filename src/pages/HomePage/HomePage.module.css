@@ -19,6 +19,18 @@
 
   background-image: url('../../assets/images/homepage-1x-desk.jpg');
 }
+.home_title {
+  line-height: 67%;
+  margin-bottom: 16px;
+  font-size: 18px; /* базове значення для десктопів */
+}
+
+/* Медіа-запит для мобільних пристроїв */
+@media screen and (max-width: 767px) {
+  ._home_title_ {
+    font-size: 24px; /* збільшуємо розмір шрифту для мобільних пристроїв */
+  }
+}
 
 @media (min-width: 1024px) and (min-resolution: 2dppx) {
   .home_container {
@@ -28,8 +40,6 @@
 
 .home_title {
   font-size: 48px;
-  line-height: 67%;
-  margin-bottom: 16px;
 }
 .home_moto {
   font-size: 24px;

@@ -4,18 +4,39 @@
   align-items: center;
   border-bottom: 1px solid var(--badges);
   background-color: var(--inputs);
-  justify-content: space-between;
+  justify-content: space-between; /* Для мобільних та планшетів */
   position: relative;
+  padding: 0 15px; /* внутрішні відступи для мобільних/планшетів */
 }
 
 .logo {
-  position: absolute;
-  left: 0;
-  padding-left: 64px;
+  display: flex;
+  align-items: center;
+  /* Для мобільних/планшетів логотип розміщується звичайно */
 }
 
 .nav_container {
-  flex-grow: 1;
   display: flex;
-  justify-content: center;
+  align-items: center;
+}
+
+/* Для десктопів */
+@media screen and (min-width: 1024px) {
+  .header_menu {
+    justify-content: center; /* Центруємо вміст */
+    padding: 0; /* можна зняти додатковий padding */
+  }
+
+  /* Фіксуємо логотип зліва */
+  .logo {
+    position: absolute;
+    left: 64px; /* або інший бажаний відступ */
+  }
+
+  /* Меню розтягується для центрованого вирівнювання */
+  .nav_container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+  }
 }
