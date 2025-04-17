@@ -26,7 +26,7 @@
 }
 .home_moto {
   font-size: 12px;
-  }
+}
 
 /* Медіа-запит для мобільних пристроїв */
 @media screen and (max-width: 767px) {
@@ -39,7 +39,9 @@
   .home_container {
     background-image: url('../../assets/images/homepage-2x-desk.jpg');
   }
-  .home_title {
+}
+
+.home_title {
   font-size: 48px;
 }
 .home_moto {
@@ -64,6 +66,3 @@
 .home_main_btn:hover {
   background-color: var(--button-hover);
 }
-}
-
-

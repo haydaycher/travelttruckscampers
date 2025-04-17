@@ -1,25 +1,31 @@
+/* За замовчуванням для мобільних і планшетів: блокова (вертикальна) верстка */
 .catalogContainer {
-  display: flex;
-  grid-template-columns: 250px 1fr;
+  display: block;
+  /* Забираємо grid-template-columns, бо для стовпчикової верстки це не потрібно */
   gap: 20px;
   padding: 20px;
   max-width: 1312px;
   margin: 0 auto;
 }
 
+/* Блок з фільтрами займає всю ширину за замовчуванням */
 .filterSection {
-  display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   gap: 16px;
+  /* width: 100%; */
+  margin-bottom: 20px; /* розділяємо від контенту */
 }
 
+/* Контейнер контенту */
 .contentSection {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 40px;
+  width: 100%;
 }
 
+/* Інші стилі залишаємо без змін */
 .listSection {
   max-width: 100%;
   display: flex;
@@ -70,11 +76,13 @@
 .retryButton:hover {
   background-color: #8b0000;
 }
+
 .loadingButton {
   background-color: #f0f0f0;
   color: #ccc;
   cursor: not-allowed;
 }
+
 .backButton {
   background-color: #007bff;
   color: white;
@@ -130,10 +138,66 @@
 .backBtn:active {
   transform: scale(0.98);
 }
+
 .paginationButtons {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 16px; /* Відстань між кнопками */
-  margin-top: 20px;
+  /* margin-top: 20px; */
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .catalogContainer {
+    padding: 20px 32px;
+  }
+
+  .filterSection {
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .contentSection {
+    gap: 32px;
+  }
+
+  .listSection {
+    gap: 24px;
+  }
+
+  .paginationButtons {
+    gap: 20px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .catalogContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    /* padding: 40px 60px; */
+  }
+
+  .filterSection {
+    margin-bottom: 0;
+  }
+
+  .contentSection {
+    /* width: calc(100% - 280px); */
+    gap: 48px;
+  }
+
+  .listSection {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 32px;
+  }
+
+  /* .paginationButtons {
+    justify-content: flex-end;
+  } */
 }

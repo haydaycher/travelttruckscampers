@@ -15,7 +15,7 @@
 /* Стилі для модального вікна */
 .favoritesList {
   position: relative; /* Для правильного позиціонування */
-  width: 600px; /* Ширина модального вікна */
+  width: 400px; /* Ширина модального вікна */
   background-color: #fff;
   border: 1px solid var(--gray-light);
   border-radius: 8px;

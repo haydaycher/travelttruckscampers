@@ -2,7 +2,6 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 48px 64px;
 }
 
 .filterLabelWrapper {
@@ -425,4 +424,12 @@ input[type='radio'] {
   display: flex;
   gap: 12px;
   justify-content: start;
+}
+@media screen and (min-width: 1024px) {
+  .wrapperSearch {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 64px;
+  }
 }
