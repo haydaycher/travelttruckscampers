@@ -5,6 +5,14 @@
   margin-top: 20px;
   position: static;
 }
+@media (max-width: 767px) {
+  .pagination {
+    position: static; /* має бути в потоці документа */
+    clear: both; /* перестраховка, якщо були якісь float’и */
+    margin-top: 20px; /* відстань від останнього айтема */
+    width: 100%; /* щоб зайняти всю ширину і не “плавати” */
+  }
+}
 
 .pageButton {
   padding: 10px;
