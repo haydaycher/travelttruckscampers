@@ -4,7 +4,7 @@
   background-position: center;
   background-size: cover;
   width: 100%;
-  height: 696px;
+  height: 870px;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
@@ -13,7 +13,8 @@
   font-size: 48px;
   line-height: 67%;
   color: var(--inputs);
-  padding-left: 64px;
+  padding-left: 24px;
+
   box-sizing: border-box;
   position: relative;
 
@@ -29,7 +30,11 @@
 }
 
 /* Медіа-запит для мобільних пристроїв */
-@media screen and (max-width: 767px) {
+@media screen and (min-width: 767px) {
+  .home_container {
+    height: 1050px;
+    padding-left: 64px;
+  }
   ._home_title_ {
     font-size: 24px; /* збільшуємо розмір шрифту для мобільних пристроїв */
   }

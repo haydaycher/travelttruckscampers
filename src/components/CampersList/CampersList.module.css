@@ -11,7 +11,7 @@
 
 .campers_list ul {
   list-style: none;
-  padding: 0;
+  padding: 10;
 
   width: 100%;
   gap: 8px;

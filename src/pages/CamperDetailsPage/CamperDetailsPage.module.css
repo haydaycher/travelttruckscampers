@@ -50,6 +50,7 @@
   font-size: 16px;
   line-height: 1.5;
   color: #475467;
+  text-align: justify;
 }
 
 .rating {
@@ -122,7 +123,8 @@
 .tabs::after {
   content: '';
   display: block;
-  width: 1312px;
+  width: 390px;
+
   height: 2px;
 
   stroke: #dadde1;
@@ -151,27 +153,26 @@
 }
 
 .bottomContainer {
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   gap: 40px; /* Відстань між контейнерами */
   align-items: flex-start;
 }
 
 .tab_content {
-  padding: 44px 80px;
+  padding: 14px 20px;
   background: #f7f7f7;
   border-radius: 10px;
-  min-width: 631px;
-
+  margin-bottom: 18px;
   flex: 1; /* Дозволяє зайняти весь доступний простір */
 }
 
 .booking {
   border: 1px solid #dadde1;
   border-radius: 10px;
-  padding: 44px 57px;
+  padding: 22px 20px;
   /* Ширина 100%, щоб адаптуватися до ширини контейнера */
-  min-width: 631px; /* Максимальна ширина для форми бронювання */
+  /* min-width: 631px;  */
   flex: 1; /* Дозволяє зайняти весь доступний простір */
 }
 
@@ -182,13 +183,14 @@
   line-height: 1.2;
   color: #101828;
   position: relative;
-  margin-top: 100px;
+  margin-top: 17px;
 }
 
 .vehicle_header::after {
   content: '';
   display: block;
-  width: 527px;
+  width: 356px;
+
   height: 2px;
   stroke-width: 1px;
   stroke: #dadde1;
@@ -199,12 +201,12 @@
 }
 
 .features_list {
-    list-style: none;
+  list-style: none;
   padding: 0;
   display: flex;
   flex-wrap: wrap; /* перенос рядків при нестачі місця */
   gap: 8px; /* відстань між елементами */
-  overflow: visible; 
+  overflow: visible;
 }
 .features_item {
   display: flex;
@@ -287,8 +289,9 @@
 /* Стилі для інпутів у формі бронювання */
 .booking_form input {
   border-radius: 12px;
-  padding: 18px 337px 18px 18px;
-  width: 527px;
+  padding: 8px;
+  /* padding: 18px 337px 18px 18px; */
+  /* width: 527px; */
   height: 60px;
   background: #f7f7f7;
   border: 1px solid #ccc;
@@ -330,7 +333,8 @@
 .dateInput {
   border-radius: 12px;
   padding: 18px;
-  width: 527px;
+  width: 100%; /* Змінити на 100%, щоб інпут адаптувався до ширини контейнера */
+  max-width: 527px; /* Додати max-width для обмеження на більших екранах */
   height: 60px;
   background: #f7f7f7;
   border: 1px solid #ccc;
@@ -582,4 +586,46 @@
   border-radius: 32px;
   width: 36px;
   height: 32px;
+}
+
+@media screen and (min-width: 768px) {
+  .dateInput {
+    width: 100%; /* Залишити 100% ширину на мобільних пристроях */
+    padding: 18px 20px; /* Зменшити відступи для мобільних */
+  }
+
+  .tabs::after {
+    width: 100%;
+    /* width: 1312px; */
+  }
+  /* .vehicle_header::after {
+    width: 527px;
+  } */
+
+  .tab_content {
+    padding: 44px 80px;
+    width: 100%;
+    /* min-width: 631px; */
+    margin-bottom: 10px;
+  }
+  .booking {
+    padding: 44px 57px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .bottomContainer {
+    display: flex;
+  }
+  .tabs::after {
+    width: 1312px;
+  }
+  .booking {
+    min-width: 631px;
+  }
+  .booking_form input {
+    width: 527px;
+  }
+  .vehicle_header {
+    margin-top: 100px;
+  }
 }

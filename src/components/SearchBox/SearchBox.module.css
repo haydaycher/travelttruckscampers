@@ -73,7 +73,7 @@ input[type='radio'] {
 }
 
 .filters {
-  margin-top: 40px;
+  margin-top: 12px;
 }
 
 .filterButton {
@@ -99,12 +99,12 @@ input[type='radio'] {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  margin-top: 48px;
+  margin-top: 28px;
 }
-
+/* 
 .filterOptions > * {
   box-sizing: border-box;
-}
+} */
 
 .iconWrapper {
   display: flex;
@@ -188,7 +188,7 @@ input[type='radio'] {
   display: inline-block;
   padding-bottom: 8px; /* Відступ перед рискою */
   width: 100%;
-  margin-top: 32px;
+  margin-top: 15px;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 20px;
@@ -425,11 +425,26 @@ input[type='radio'] {
   gap: 12px;
   justify-content: start;
 }
+
+@media screen and (min-width: 786px) and (max-width: 1023px) {
+  .filterOptions {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
 @media screen and (min-width: 1024px) {
   .wrapperSearch {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     padding: 48px 64px;
+  }
+  .filters {
+    margin-top: 40px;
+  }
+  .filtersCategory {
+    margin-top: 32px;
+  }
+  .filterOptions {
+    margin-top: 48px;
   }
 }

@@ -5,6 +5,7 @@ import Loader from './components/Loader/Loader';
 import { HelmetProvider } from 'react-helmet-async';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ScrollUpBtn from './components/ScrollUpBtn/ScrollUpBtn';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const CatalogPage = lazy(() => import('./pages/CatalogPage/CatalogPage'));
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
+      <ScrollUpBtn />
     </Suspense>
     {/* ✅ Єдиний ToastContainer у всьому додатку */}
     {/* <ToastContainer position="top-right" autoClose={3000} hideProgressBar /> */}

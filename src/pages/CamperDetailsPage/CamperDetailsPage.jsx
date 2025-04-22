@@ -8,8 +8,10 @@ import { Helmet } from 'react-helmet-async';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import DatePicker from 'react-datepicker';
+
 import 'react-datepicker/dist/react-datepicker.css';
 import css from './CamperDetailsPage.module.css';
+import ImageGallery from '../../components/ImageGallery/ImageGallery';
 
 const CamperDetailsPage = () => {
   const location = useLocation();
@@ -109,16 +111,7 @@ const CamperDetailsPage = () => {
           {/* Галерея фото */}
           <div className={css.photo_section}>
             {images.length > 0 ? (
-              <div className={css.photo_gallery}>
-                {images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image.thumb}
-                    alt={`${camper.name} ${index + 1}`}
-                    className={css.gallery_photo}
-                  />
-                ))}
-              </div>
+              <ImageGallery images={images} />
             ) : (
               <p>No photos available</p>
             )}

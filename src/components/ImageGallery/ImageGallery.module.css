@@ -1,0 +1,33 @@
+/* --- Слайдер для мобільних --- */
+.mobileSlider {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* плавний скрол на iOS */
+  gap: 10px;
+  padding-bottom: 10px;
+}
+.mobileSlide {
+  flex: 0 0 80%; /* ширина одного слайду — 80% від вікна */
+  scroll-snap-align: center;
+}
+.slideImage {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* --- Ваша звичайна галерея для планшету та десктопу --- */
+.photoGallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.galleryPhoto {
+  border-radius: 10px;
+  width: 292px;
+  height: 312px;
+  object-fit: cover;
+}

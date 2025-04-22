@@ -21,6 +21,18 @@ body {
   font-weight: 400;
   box-sizing: border-box;
 }
+a:focus,
+a:active {
+  outline: none;
+  box-shadow: none;
+}
+
+a svg {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
 .container {
   min-width: 320px;
   max-width: 375px;

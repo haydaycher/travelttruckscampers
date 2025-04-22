@@ -1,0 +1,27 @@
+/* src/components/ScrollUpBtn/ScrollUpBtn.module.css */
+.goBackBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  line-height: 1;
+  background: #33333354;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+  z-index: 1000;
+}
+
+/* ховаємо кнопку на десктопі абсолютно */
+@media (min-width: 769px) {
+  .goBackBtn {
+    display: none;
+  }
+}
