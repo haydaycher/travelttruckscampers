@@ -425,13 +425,36 @@ input[type='radio'] {
   gap: 12px;
   justify-content: start;
 }
-
-@media screen and (min-width: 786px) and (max-width: 1023px) {
+@media screen and (min-width: 517px) {
   .filterOptions {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: (repeat(4, 1fr));
   }
 }
-@media screen and (min-width: 1024px) {
+
+/* Tablet: від 768px до 1023px */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .wrapperSearch {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px; /* проміжок між блоками */
+  }
+
+  /* Якщо потрібна фіксована ширина для форми і фільтрів */
+  .wrapperSearch > form {
+    flex: 1; /* займе всю доступну ширину, мінус gap */
+    width: 100%; /* щоб не обвалювалася надто сильно */
+  }
+  .wrapperSearch > .filters {
+    flex: 1.5; /* фільтри трохи ширші за форму */
+    /* min-width: 400px; */
+  }
+  .filterOptions {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+@media screen and (min-width: 1440px) {
   .wrapperSearch {
     box-sizing: border-box;
     display: flex;

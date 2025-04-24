@@ -3,7 +3,7 @@
   display: block;
   /* Забираємо grid-template-columns, бо для стовпчикової верстки це не потрібно */
   gap: 20px;
-  padding: 20px;
+  padding: 15px;
   max-width: 1312px;
   margin: 0 auto;
 }
